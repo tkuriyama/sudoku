@@ -1,5 +1,5 @@
 """Sudoku solver.
-Inspired by Richard Bird's solution in Pearls of Functional Programming.
+Inspired by Richard Bird's solution in Pearls of Functional Algorithm Design.
 A board is represented as a matrix of sets: {1-9} means all values are possible
 for a given cell; {1} means choices have been narrowed down to a single value, 
 ie the cell is filled. An emtpy board has 9^3 possible values; a complete board 
