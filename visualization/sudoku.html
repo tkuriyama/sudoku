@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <script src="elm.js"></script>
+    <style>
+      #container {
+	  padding: 10px;
+	  width: 600px;
+	  height: 600px
+      }
+      
+      #elm {
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+    <br>
+
+    sudoku<br>
+
+    <hr>
+
+    <div id="elm"></div>
+    
+    <script>
+       var app = Elm.Main.init({ node: document.getElementById("elm") });
+    </script>
+
+    </div>
+  </body>
+</html>
