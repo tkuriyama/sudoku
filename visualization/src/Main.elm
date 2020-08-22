@@ -100,8 +100,11 @@ myBoard myX myY b = (box myX myY) ::
                      (populate myX myY b))
 
 myModel : Float -> Float -> Model -> List (Svg msg)
-myModel myX myY (Log _ _ _ (b::_)) = myBoard myX myY b
-                        
+myModel myX myY l =
+    case l of
+        (Log _ _ _ (b::_)) -> myBoard myX myY b
+        (Log _ _ _ []) -> myBoard myX myY []
+              
 -- Main
 
 testB : Board
@@ -121,13 +124,13 @@ view m = svg [ viewBox 0 0 600 600 ] (myModel 500 500 m)
 update : Msg -> Model -> (Model, Cmd Msg)
 update s m = (m, Cmd.none)
 
-subscriptions : Model -> Sub Msg
-subscriptions m = none
+-- subscriptions : Model -> Sub Msg
+-- subscriptions m = none
            
 main = element 
     { init = init
     , view = view
     , update = update
-    , subscriptions = subscriptions
+    , subscriptions = \_ -> Sub.none
     }
 
