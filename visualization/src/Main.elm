@@ -1,13 +1,16 @@
 module Main exposing (main)
 
+import String exposing (fromInt)
+
 import Color
+import Browser exposing (element)
 import Html exposing (Html)
-import TypedSvg exposing (circle, svg, rect, line)
+import TypedSvg exposing (circle, svg, rect, line, text_)
 import TypedSvg.Attributes exposing (x, y, x1, y1, x2, y2, cx, cy, fill, r, rx,
-                                     stroke, strokeWidth, opacity,
+                                     stroke, strokeWidth, opacity, class,
                                      width, height, viewBox)
 import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
-import TypedSvg.Core exposing (Svg)
+import TypedSvg.Core exposing (Svg, text)
 
 type alias Point = (Float, Float)
 
@@ -16,11 +19,10 @@ type alias Board = List Cell
 type alias Stack = Int
 type Transform = Rows | Cols | Boxes
 type Action = Transition | Prune | Fill | Extend | Nothing
-type Log = Log {actions: List Action
-               , transforms: List Transform
-               , stack: List Stack
-               , boards: List Board}
- 
+type Log = Log (List Action) (List Transform) (List Stack) (List Board)
+
+type alias Model = Log
+    
 -- Board Image
 
 box : Float -> Float -> Svg msg
@@ -55,20 +57,40 @@ minorLines myX myY myStroke =
 
 -- Board Content
 
+intsToStr : List Int -> String
+intsToStr ns =
+    case ns of
+        (x::[]) -> String.fromInt x
+        _ -> "."
+
+genCellBG : Float -> Float -> Cell -> Svg msg
+genCellBG myX myY (myCXInt, myCYInt, ns) =
+    let myCX = toFloat myCXInt
+        myCY = toFloat myCYInt
+        offset = myX / 18 
+    in circle [ cx (px <| myCX * myX / 9 + offset)
+              , cy (px <| myCY * myY / 9 + offset)
+              , r (px <| offset * 0.8)
+              , fill <| Paint Color.blue
+              , opacity <| Opacity <| ((List.length ns |> toFloat)-1) / 10
+              ] [] 
+
 genCell : Float -> Float -> Cell -> Svg msg
 genCell myX myY (myCXInt, myCYInt, ns) =
     let myCX = toFloat myCXInt
         myCY = toFloat myCYInt
-        offset = myX / 9 / 2 
-    in circle [ cx (px <| myCX * myX / 9 + offset)
-              , cy (px <| myCY * myY / 9 + offset)
-              , r (px 20)
-              , fill <| Paint Color.darkBlue
-              , opacity <| Opacity ((10-(List.length ns |> toFloat)) / 9)
-              ] [] 
+        offset = myX / 18 
+        disp = intsToStr ns               
+    in text_ [ x (px <| myCX * myX / 9 + offset - 5)
+             , y (px <| myCY * myY / 9 + offset + 5)
+             , class ["boardNum"]
+             , strokeWidth (px 12)
+             ] [text disp] 
     
 populate : Float -> Float -> Board -> List (Svg msg)
-populate myX myY cs = List.map (genCell myX myY) cs         
+populate myX myY cs =
+         List.map (genCellBG myX myY) cs ++
+         List.map (genCell myX myY) cs         
 
 testB : Board
         
@@ -85,6 +107,22 @@ myBoard myX myY = (box myX myY) ::
                    (majorLines myX myY 1.5) ++
                    (populate myX myY testB))
                         
+-- Main
+
+init : Model
+init = Log [Nothing] [Rows] [1] [myBoard 500 500]
+
+view : Model -> Html msg
+view m = svg [ viewBox 0 0 600 600 ] (myBoard 500 500)
+
+update : Model -> Model
+update m = m
+
 main : Html msg
-main =
-    svg [ viewBox 0 0 600 600 ] (myBoard 500 500)
+main = element 
+    { init = init
+    , view = view
+    , update = update
+    --, subscriptions : model -> Sub msg
+    }
+

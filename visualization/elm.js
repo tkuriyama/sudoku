@@ -4756,9 +4756,55 @@ var $author$project$Main$minorLines = F3(
 				_List_fromArray(
 					[1, 2, 4, 5, 7, 8])));
 	});
+var $elm_community$typed_svg$TypedSvg$Attributes$class = function (names) {
+	return A2(
+		$elm_community$typed_svg$TypedSvg$Core$attribute,
+		'class',
+		A2($elm$core$String$join, ' ', names));
+};
+var $author$project$Main$intsToStr = function (ns) {
+	if (ns.b && (!ns.b.b)) {
+		var x = ns.a;
+		return $elm$core$String$fromInt(x);
+	} else {
+		return '.';
+	}
+};
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm_community$typed_svg$TypedSvg$Core$text = $elm$virtual_dom$VirtualDom$text;
+var $elm_community$typed_svg$TypedSvg$text_ = $elm_community$typed_svg$TypedSvg$Core$node('text');
+var $author$project$Main$genCell = F3(
+	function (myX, myY, _v0) {
+		var myCXInt = _v0.a;
+		var myCYInt = _v0.b;
+		var ns = _v0.c;
+		var offset = myX / 18;
+		var myCY = myCYInt;
+		var myCX = myCXInt;
+		var disp = $author$project$Main$intsToStr(ns);
+		return A2(
+			$elm_community$typed_svg$TypedSvg$text_,
+			_List_fromArray(
+				[
+					$elm_community$typed_svg$TypedSvg$Attributes$x(
+					$elm_community$typed_svg$TypedSvg$Types$px((((myCX * myX) / 9) + offset) - 5)),
+					$elm_community$typed_svg$TypedSvg$Attributes$y(
+					$elm_community$typed_svg$TypedSvg$Types$px((((myCY * myY) / 9) + offset) + 5)),
+					$elm_community$typed_svg$TypedSvg$Attributes$class(
+					_List_fromArray(
+						['boardNum'])),
+					$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
+					$elm_community$typed_svg$TypedSvg$Types$px(12))
+				]),
+			_List_fromArray(
+				[
+					$elm_community$typed_svg$TypedSvg$Core$text(disp)
+				]));
+	});
 var $elm_community$typed_svg$TypedSvg$Types$Opacity = function (a) {
 	return {$: 0, a: a};
 };
+var $avh4$elm_color$Color$blue = A4($avh4$elm_color$Color$RgbaSpace, 52 / 255, 101 / 255, 164 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$circle = $elm_community$typed_svg$TypedSvg$Core$node('circle');
 var $elm_community$typed_svg$TypedSvg$Attributes$cx = function (length) {
 	return A2(
@@ -4772,7 +4818,6 @@ var $elm_community$typed_svg$TypedSvg$Attributes$cy = function (length) {
 		'cy',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
-var $avh4$elm_color$Color$darkBlue = A4($avh4$elm_color$Color$RgbaSpace, 32 / 255, 74 / 255, 135 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString = function (opacity) {
 	if (!opacity.$) {
 		var n = opacity.a;
@@ -4791,12 +4836,12 @@ var $elm_community$typed_svg$TypedSvg$Attributes$r = function (length) {
 		'r',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
-var $author$project$Main$genCell = F3(
+var $author$project$Main$genCellBG = F3(
 	function (myX, myY, _v0) {
 		var myCXInt = _v0.a;
 		var myCYInt = _v0.b;
 		var ns = _v0.c;
-		var offset = (myX / 9) / 2;
+		var offset = myX / 18;
 		var myCY = myCYInt;
 		var myCX = myCXInt;
 		return A2(
@@ -4808,21 +4853,26 @@ var $author$project$Main$genCell = F3(
 					$elm_community$typed_svg$TypedSvg$Attributes$cy(
 					$elm_community$typed_svg$TypedSvg$Types$px(((myCY * myY) / 9) + offset)),
 					$elm_community$typed_svg$TypedSvg$Attributes$r(
-					$elm_community$typed_svg$TypedSvg$Types$px(20)),
+					$elm_community$typed_svg$TypedSvg$Types$px(offset * 0.8)),
 					$elm_community$typed_svg$TypedSvg$Attributes$fill(
-					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$darkBlue)),
+					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$blue)),
 					$elm_community$typed_svg$TypedSvg$Attributes$opacity(
 					$elm_community$typed_svg$TypedSvg$Types$Opacity(
-						(10 - $elm$core$List$length(ns)) / 9))
+						($elm$core$List$length(ns) - 1) / 10))
 				]),
 			_List_Nil);
 	});
 var $author$project$Main$populate = F3(
 	function (myX, myY, cs) {
-		return A2(
-			$elm$core$List$map,
-			A2($author$project$Main$genCell, myX, myY),
-			cs);
+		return _Utils_ap(
+			A2(
+				$elm$core$List$map,
+				A2($author$project$Main$genCellBG, myX, myY),
+				cs),
+			A2(
+				$elm$core$List$map,
+				A2($author$project$Main$genCell, myX, myY),
+				cs));
 	});
 var $elm$core$List$append = F2(
 	function (xs, ys) {
