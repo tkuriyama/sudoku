@@ -21,6 +21,7 @@ type Transform = Rows | Cols | Boxes
 type Action = Transition | Prune | Fill | Extend | Nothing
 type Log = Log (List Action) (List Transform) (List Stack) (List Board)
 
+type Msg = Update
 type alias Model = Log
     
 -- Board Image
@@ -92,37 +93,41 @@ populate myX myY cs =
          List.map (genCellBG myX myY) cs ++
          List.map (genCell myX myY) cs         
 
+myBoard : Float -> Float -> Board -> List (Svg msg)
+myBoard myX myY b = (box myX myY) ::
+                    ((minorLines myX myY 0.5) ++
+                     (majorLines myX myY 1.5) ++
+                     (populate myX myY b))
+
+myModel : Float -> Float -> Model -> List (Svg msg)
+myModel myX myY (Log _ _ _ (b::_)) = myBoard myX myY b
+                        
+-- Main
+
 testB : Board
-        
 testB = let empty = List.range 0 9 
             vals = [1] :: List.repeat 8 empty |> List.repeat 9
                    |> List.concat
             f n = List.range 0 8 |> List.map (\ m -> (n, m))
             inds = List.range 0 8 |> List.concatMap f 
         in List.map2 (\ (myCX, myCY) v -> (myCX, myCY, v)) inds vals
-                
-myBoard : Float -> Float -> List (Svg msg)
-myBoard myX myY = (box myX myY) ::
-                  ((minorLines myX myY 0.5) ++
-                   (majorLines myX myY 1.5) ++
-                   (populate myX myY testB))
-                        
--- Main
+            
+init : () -> (Model, Cmd Msg)
+init _ = (Log [Nothing] [Rows] [1] [testB], Cmd.none)
 
-init : Model
-init = Log [Nothing] [Rows] [1] [myBoard 500 500]
+view : Model -> Html Msg
+view m = svg [ viewBox 0 0 600 600 ] (myModel 500 500 m) 
 
-view : Model -> Html msg
-view m = svg [ viewBox 0 0 600 600 ] (myBoard 500 500)
+update : Msg -> Model -> (Model, Cmd Msg)
+update s m = (m, Cmd.none)
 
-update : Model -> Model
-update m = m
-
-main : Html msg
+subscriptions : Model -> Sub Msg
+subscriptions m = none
+           
 main = element 
     { init = init
     , view = view
     , update = update
-    --, subscriptions : model -> Sub msg
+    , subscriptions = subscriptions
     }
 
