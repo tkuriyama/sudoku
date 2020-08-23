@@ -5,7 +5,7 @@ for a given cell; {1} means choices have been narrowed down to a single value,
 ie the cell is filled. An emtpy board has 9^3 possible values; a complete board 
 has 9^2 singleton sets.
 
-Logging: emit log of type type Model = List (Step Action Transform Stack Board)
+Logging: emit log of type Model = List (Step Action Transform Stack Board)
 as JSON {"model": [[Step], [Step] ...]
 """
 
