@@ -5138,12 +5138,12 @@ var $elm$core$Task$perform = F2(
 			A2($elm$core$Task$map, toMessage, task));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$Log = F4(
+var $author$project$Main$Nothing = 4;
+var $author$project$Main$Rows = 0;
+var $author$project$Main$Step = F4(
 	function (a, b, c, d) {
 		return {$: 0, a: a, b: b, c: c, d: d};
 	});
-var $author$project$Main$Nothing = 4;
-var $author$project$Main$Rows = 0;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$core$List$append = F2(
@@ -5219,16 +5219,10 @@ var $author$project$Main$testB = function () {
 }();
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		A4(
-			$author$project$Main$Log,
-			_List_fromArray(
-				[4]),
-			_List_fromArray(
-				[0]),
-			_List_fromArray(
-				[1]),
-			_List_fromArray(
-				[$author$project$Main$testB])),
+		_List_fromArray(
+			[
+				A4($author$project$Main$Step, 4, 0, 1, $author$project$Main$testB)
+			]),
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5256,67 +5250,7 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm_community$typed_svg$TypedSvg$Core$attribute = $elm$virtual_dom$VirtualDom$attribute;
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $elm$core$String$concat = function (strings) {
-	return A2($elm$core$String$join, '', strings);
-};
 var $elm$core$String$fromFloat = _String_fromNumber;
-var $elm$core$Basics$round = _Basics_round;
-var $avh4$elm_color$Color$toCssString = function (_v0) {
-	var r = _v0.a;
-	var g = _v0.b;
-	var b = _v0.c;
-	var a = _v0.d;
-	var roundTo = function (x) {
-		return $elm$core$Basics$round(x * 1000) / 1000;
-	};
-	var pct = function (x) {
-		return $elm$core$Basics$round(x * 10000) / 100;
-	};
-	return $elm$core$String$concat(
-		_List_fromArray(
-			[
-				'rgba(',
-				$elm$core$String$fromFloat(
-				pct(r)),
-				'%,',
-				$elm$core$String$fromFloat(
-				pct(g)),
-				'%,',
-				$elm$core$String$fromFloat(
-				pct(b)),
-				'%,',
-				$elm$core$String$fromFloat(
-				roundTo(a)),
-				')'
-			]));
-};
-var $elm_community$typed_svg$TypedSvg$TypesToStrings$paintToString = function (paint) {
-	switch (paint.$) {
-		case 0:
-			var color = paint.a;
-			return $avh4$elm_color$Color$toCssString(color);
-		case 1:
-			var string = paint.a;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					['url(#', string, ')']));
-		case 2:
-			return 'context-fill';
-		case 3:
-			return 'context-stroke';
-		default:
-			return 'none';
-	}
-};
-var $elm_community$typed_svg$TypedSvg$Attributes$fill = A2(
-	$elm$core$Basics$composeL,
-	$elm_community$typed_svg$TypedSvg$Core$attribute('fill'),
-	$elm_community$typed_svg$TypedSvg$TypesToStrings$paintToString);
 var $elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString = function (opacity) {
 	if (!opacity.$) {
 		var n = opacity.a;
@@ -5387,6 +5321,62 @@ var $elm_community$typed_svg$TypedSvg$Attributes$rx = function (length) {
 		'rx',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $elm$core$Basics$round = _Basics_round;
+var $avh4$elm_color$Color$toCssString = function (_v0) {
+	var r = _v0.a;
+	var g = _v0.b;
+	var b = _v0.c;
+	var a = _v0.d;
+	var roundTo = function (x) {
+		return $elm$core$Basics$round(x * 1000) / 1000;
+	};
+	var pct = function (x) {
+		return $elm$core$Basics$round(x * 10000) / 100;
+	};
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'rgba(',
+				$elm$core$String$fromFloat(
+				pct(r)),
+				'%,',
+				$elm$core$String$fromFloat(
+				pct(g)),
+				'%,',
+				$elm$core$String$fromFloat(
+				pct(b)),
+				'%,',
+				$elm$core$String$fromFloat(
+				roundTo(a)),
+				')'
+			]));
+};
+var $elm_community$typed_svg$TypedSvg$TypesToStrings$paintToString = function (paint) {
+	switch (paint.$) {
+		case 0:
+			var color = paint.a;
+			return $avh4$elm_color$Color$toCssString(color);
+		case 1:
+			var string = paint.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['url(#', string, ')']));
+		case 2:
+			return 'context-fill';
+		case 3:
+			return 'context-stroke';
+		default:
+			return 'none';
+	}
+};
 var $elm_community$typed_svg$TypedSvg$Attributes$stroke = A2(
 	$elm$core$Basics$composeL,
 	$elm_community$typed_svg$TypedSvg$Core$attribute('stroke'),
@@ -5397,7 +5387,6 @@ var $elm_community$typed_svg$TypedSvg$Attributes$strokeWidth = function (length)
 		'stroke-width',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
-var $avh4$elm_color$Color$white = A4($avh4$elm_color$Color$RgbaSpace, 255 / 255, 255 / 255, 255 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$Attributes$width = function (length) {
 	return A2(
 		$elm_community$typed_svg$TypedSvg$Core$attribute,
@@ -5432,8 +5421,6 @@ var $author$project$Main$box = F2(
 					$elm_community$typed_svg$TypedSvg$Types$px(myY)),
 					$elm_community$typed_svg$TypedSvg$Attributes$rx(
 					$elm_community$typed_svg$TypedSvg$Types$px(1)),
-					$elm_community$typed_svg$TypedSvg$Attributes$fill(
-					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$white)),
 					$elm_community$typed_svg$TypedSvg$Attributes$fillOpacity(
 					$elm_community$typed_svg$TypedSvg$Types$Opacity(0)),
 					$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
@@ -5584,6 +5571,10 @@ var $author$project$Main$genCell = F3(
 					$elm_community$typed_svg$TypedSvg$Core$text(disp)
 				]));
 	});
+var $elm_community$typed_svg$TypedSvg$Attributes$fill = A2(
+	$elm$core$Basics$composeL,
+	$elm_community$typed_svg$TypedSvg$Core$attribute('fill'),
+	$elm_community$typed_svg$TypedSvg$TypesToStrings$paintToString);
 var $avh4$elm_color$Color$lightGreen = A4($avh4$elm_color$Color$RgbaSpace, 138 / 255, 226 / 255, 52 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$Attributes$opacity = A2(
 	$elm$core$Basics$composeL,
@@ -5646,9 +5637,9 @@ var $author$project$Main$myBoard = F3(
 	});
 var $author$project$Main$myModel = F3(
 	function (myX, myY, l) {
-		if (l.d.b) {
-			var _v1 = l.d;
-			var b = _v1.a;
+		if (l.b) {
+			var _v1 = l.a;
+			var b = _v1.d;
 			return A3($author$project$Main$myBoard, myX, myY, b);
 		} else {
 			return A3($author$project$Main$myBoard, myX, myY, _List_Nil);

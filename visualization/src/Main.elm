@@ -19,10 +19,10 @@ type alias Board = List Cell
 type alias Stack = Int
 type Transform = Rows | Cols | Boxes
 type Action = Transition | Prune | Fill | Extend | Nothing
-type Log = Log (List Action) (List Transform) (List Stack) (List Board)
+type Step = Step Action Transform Stack Board
 
 type Msg = Update
-type alias Model = Log
+type alias Model = List Step
     
 -- Board Image
 
@@ -105,8 +105,8 @@ myBoard myX myY b = (minorLines myX myY 0.5) ++
 myModel : Float -> Float -> Model -> List (Svg msg)
 myModel myX myY l =
     case l of
-        (Log _ _ _ (b::_)) -> myBoard myX myY b
-        (Log _ _ _ []) -> myBoard myX myY []
+        ((Step _ _ _ b)::_) -> myBoard myX myY b
+        [] -> myBoard myX myY []
               
 -- Main
 
@@ -119,7 +119,7 @@ testB = let empty = List.range 0 9
         in List.map2 (\ (myCX, myCY) v -> (myCX, myCY, v)) inds vals
             
 init : () -> (Model, Cmd Msg)
-init _ = (Log [Nothing] [Rows] [1] [testB], Cmd.none)
+init _ = ([Step Nothing Rows 1 testB], Cmd.none)
 
 view : Model -> Html Msg
 view m = svg [ viewBox 0 0 600 600 ] (myModel 500 500 m) 
