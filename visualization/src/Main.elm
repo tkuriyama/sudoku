@@ -7,7 +7,7 @@ import Browser exposing (element)
 import Html exposing (Html)
 import TypedSvg exposing (circle, svg, rect, line, text_)
 import TypedSvg.Attributes exposing (x, y, x1, y1, x2, y2, cx, cy, fill, r, rx,
-                                     stroke, strokeWidth, opacity, class,
+                                     stroke, strokeWidth, opacity, class, fillOpacity,
                                      width, height, viewBox)
 import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
 import TypedSvg.Core exposing (Svg, text)
@@ -30,8 +30,9 @@ box : Float -> Float -> Svg msg
 box myX myY =
     rect [ x (px 0.5), y (px 0.5)
           , width (px myX), height (px myY)
-          , rx (px 10)
-          , fill <| Paint Color.lightGrey
+          , rx (px 1)
+--         , fill <| Paint Color.white
+         , fillOpacity <| Opacity 0
          , strokeWidth (px 1.5)
           , stroke <| Paint Color.black
          ] []
@@ -58,8 +59,8 @@ minorLines myX myY myStroke =
 
 -- Board Content
 
-intsToStr : List Int -> String
-intsToStr ns =
+showCell : List Int -> String
+showCell ns =
     case ns of
         (x::[]) -> String.fromInt x
         _ -> "."
@@ -68,20 +69,22 @@ genCellBG : Float -> Float -> Cell -> Svg msg
 genCellBG myX myY (myCXInt, myCYInt, ns) =
     let myCX = toFloat myCXInt
         myCY = toFloat myCYInt
-        offset = myX / 18 
-    in circle [ cx (px <| myCX * myX / 9 + offset)
-              , cy (px <| myCY * myY / 9 + offset)
-              , r (px <| offset * 0.8)
-              , fill <| Paint Color.blue
-              , opacity <| Opacity <| ((List.length ns |> toFloat)-1) / 10
-              ] [] 
+        offset = 0.5
+    in rect [ x (px <| myCX * myX / 9 + offset)
+            , y (px <| myCY * myY / 9 + offset)
+            , width (px <| myX / 9 - (offset) * 2 )
+            , height (px <| myX / 9 - (offset) * 2)
+            , rx (px <| 1)
+            , fill <| Paint Color.lightGreen
+            , opacity <| Opacity <| (10 - (List.length ns |> toFloat)) / 10
+            ] [] 
 
 genCell : Float -> Float -> Cell -> Svg msg
 genCell myX myY (myCXInt, myCYInt, ns) =
     let myCX = toFloat myCXInt
         myCY = toFloat myCYInt
         offset = myX / 18 
-        disp = intsToStr ns               
+        disp = showCell ns               
     in text_ [ x (px <| myCX * myX / 9 + offset - 5)
              , y (px <| myCY * myY / 9 + offset + 5)
              , class ["boardNum"]
@@ -94,10 +97,10 @@ populate myX myY cs =
          List.map (genCell myX myY) cs         
 
 myBoard : Float -> Float -> Board -> List (Svg msg)
-myBoard myX myY b = (box myX myY) ::
-                    ((minorLines myX myY 0.5) ++
-                     (majorLines myX myY 1.5) ++
-                     (populate myX myY b))
+myBoard myX myY b = (minorLines myX myY 0.5) ++
+                    (majorLines myX myY 1.5) ++
+                    (populate myX myY b) ++
+                    [box myX myY]
 
 myModel : Float -> Float -> Model -> List (Svg msg)
 myModel myX myY l =

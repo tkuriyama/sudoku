@@ -5237,6 +5237,9 @@ var $author$project$Main$update = F2(
 	function (s, m) {
 		return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
 	});
+var $elm_community$typed_svg$TypedSvg$Types$Opacity = function (a) {
+	return {$: 0, a: a};
+};
 var $elm_community$typed_svg$TypedSvg$Types$Paint = function (a) {
 	return {$: 0, a: a};
 };
@@ -5314,6 +5317,20 @@ var $elm_community$typed_svg$TypedSvg$Attributes$fill = A2(
 	$elm$core$Basics$composeL,
 	$elm_community$typed_svg$TypedSvg$Core$attribute('fill'),
 	$elm_community$typed_svg$TypedSvg$TypesToStrings$paintToString);
+var $elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString = function (opacity) {
+	if (!opacity.$) {
+		var n = opacity.a;
+		return $elm$core$String$fromFloat(n);
+	} else {
+		return 'inherit';
+	}
+};
+var $elm_community$typed_svg$TypedSvg$Attributes$fillOpacity = function (opa) {
+	return A2(
+		$elm_community$typed_svg$TypedSvg$Core$attribute,
+		'fill-opacity',
+		$elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString(opa));
+};
 var $elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString = function (length) {
 	switch (length.$) {
 		case 0:
@@ -5354,7 +5371,6 @@ var $elm_community$typed_svg$TypedSvg$Attributes$height = function (length) {
 		'height',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
-var $avh4$elm_color$Color$lightGrey = A4($avh4$elm_color$Color$RgbaSpace, 238 / 255, 238 / 255, 236 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$Types$Px = function (a) {
 	return {$: 9, a: a};
 };
@@ -5381,6 +5397,7 @@ var $elm_community$typed_svg$TypedSvg$Attributes$strokeWidth = function (length)
 		'stroke-width',
 		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
 };
+var $avh4$elm_color$Color$white = A4($avh4$elm_color$Color$RgbaSpace, 255 / 255, 255 / 255, 255 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$Attributes$width = function (length) {
 	return A2(
 		$elm_community$typed_svg$TypedSvg$Core$attribute,
@@ -5414,9 +5431,11 @@ var $author$project$Main$box = F2(
 					$elm_community$typed_svg$TypedSvg$Attributes$height(
 					$elm_community$typed_svg$TypedSvg$Types$px(myY)),
 					$elm_community$typed_svg$TypedSvg$Attributes$rx(
-					$elm_community$typed_svg$TypedSvg$Types$px(10)),
+					$elm_community$typed_svg$TypedSvg$Types$px(1)),
 					$elm_community$typed_svg$TypedSvg$Attributes$fill(
-					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$lightGrey)),
+					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$white)),
+					$elm_community$typed_svg$TypedSvg$Attributes$fillOpacity(
+					$elm_community$typed_svg$TypedSvg$Types$Opacity(0)),
 					$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
 					$elm_community$typed_svg$TypedSvg$Types$px(1.5)),
 					$elm_community$typed_svg$TypedSvg$Attributes$stroke(
@@ -5526,7 +5545,7 @@ var $elm_community$typed_svg$TypedSvg$Attributes$class = function (names) {
 		'class',
 		A2($elm$core$String$join, ' ', names));
 };
-var $author$project$Main$intsToStr = function (ns) {
+var $author$project$Main$showCell = function (ns) {
 	if (ns.b && (!ns.b.b)) {
 		var x = ns.a;
 		return $elm$core$String$fromInt(x);
@@ -5545,7 +5564,7 @@ var $author$project$Main$genCell = F3(
 		var offset = myX / 18;
 		var myCY = myCYInt;
 		var myCX = myCXInt;
-		var disp = $author$project$Main$intsToStr(ns);
+		var disp = $author$project$Main$showCell(ns);
 		return A2(
 			$elm_community$typed_svg$TypedSvg$text_,
 			_List_fromArray(
@@ -5565,64 +5584,38 @@ var $author$project$Main$genCell = F3(
 					$elm_community$typed_svg$TypedSvg$Core$text(disp)
 				]));
 	});
-var $elm_community$typed_svg$TypedSvg$Types$Opacity = function (a) {
-	return {$: 0, a: a};
-};
-var $avh4$elm_color$Color$blue = A4($avh4$elm_color$Color$RgbaSpace, 52 / 255, 101 / 255, 164 / 255, 1.0);
-var $elm_community$typed_svg$TypedSvg$circle = $elm_community$typed_svg$TypedSvg$Core$node('circle');
-var $elm_community$typed_svg$TypedSvg$Attributes$cx = function (length) {
-	return A2(
-		$elm_community$typed_svg$TypedSvg$Core$attribute,
-		'cx',
-		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
-};
-var $elm_community$typed_svg$TypedSvg$Attributes$cy = function (length) {
-	return A2(
-		$elm_community$typed_svg$TypedSvg$Core$attribute,
-		'cy',
-		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
-};
-var $elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString = function (opacity) {
-	if (!opacity.$) {
-		var n = opacity.a;
-		return $elm$core$String$fromFloat(n);
-	} else {
-		return 'inherit';
-	}
-};
+var $avh4$elm_color$Color$lightGreen = A4($avh4$elm_color$Color$RgbaSpace, 138 / 255, 226 / 255, 52 / 255, 1.0);
 var $elm_community$typed_svg$TypedSvg$Attributes$opacity = A2(
 	$elm$core$Basics$composeL,
 	$elm_community$typed_svg$TypedSvg$Core$attribute('opacity'),
 	$elm_community$typed_svg$TypedSvg$TypesToStrings$opacityToString);
-var $elm_community$typed_svg$TypedSvg$Attributes$r = function (length) {
-	return A2(
-		$elm_community$typed_svg$TypedSvg$Core$attribute,
-		'r',
-		$elm_community$typed_svg$TypedSvg$TypesToStrings$lengthToString(length));
-};
 var $author$project$Main$genCellBG = F3(
 	function (myX, myY, _v0) {
 		var myCXInt = _v0.a;
 		var myCYInt = _v0.b;
 		var ns = _v0.c;
-		var offset = myX / 18;
+		var offset = 0.5;
 		var myCY = myCYInt;
 		var myCX = myCXInt;
 		return A2(
-			$elm_community$typed_svg$TypedSvg$circle,
+			$elm_community$typed_svg$TypedSvg$rect,
 			_List_fromArray(
 				[
-					$elm_community$typed_svg$TypedSvg$Attributes$cx(
+					$elm_community$typed_svg$TypedSvg$Attributes$x(
 					$elm_community$typed_svg$TypedSvg$Types$px(((myCX * myX) / 9) + offset)),
-					$elm_community$typed_svg$TypedSvg$Attributes$cy(
+					$elm_community$typed_svg$TypedSvg$Attributes$y(
 					$elm_community$typed_svg$TypedSvg$Types$px(((myCY * myY) / 9) + offset)),
-					$elm_community$typed_svg$TypedSvg$Attributes$r(
-					$elm_community$typed_svg$TypedSvg$Types$px(offset * 0.8)),
+					$elm_community$typed_svg$TypedSvg$Attributes$width(
+					$elm_community$typed_svg$TypedSvg$Types$px((myX / 9) - (offset * 2))),
+					$elm_community$typed_svg$TypedSvg$Attributes$height(
+					$elm_community$typed_svg$TypedSvg$Types$px((myX / 9) - (offset * 2))),
+					$elm_community$typed_svg$TypedSvg$Attributes$rx(
+					$elm_community$typed_svg$TypedSvg$Types$px(1)),
 					$elm_community$typed_svg$TypedSvg$Attributes$fill(
-					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$blue)),
+					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$lightGreen)),
 					$elm_community$typed_svg$TypedSvg$Attributes$opacity(
 					$elm_community$typed_svg$TypedSvg$Types$Opacity(
-						($elm$core$List$length(ns) - 1) / 10))
+						(10 - $elm$core$List$length(ns)) / 10))
 				]),
 			_List_Nil);
 	});
@@ -5640,14 +5633,16 @@ var $author$project$Main$populate = F3(
 	});
 var $author$project$Main$myBoard = F3(
 	function (myX, myY, b) {
-		return A2(
-			$elm$core$List$cons,
-			A2($author$project$Main$box, myX, myY),
+		return _Utils_ap(
+			A3($author$project$Main$minorLines, myX, myY, 0.5),
 			_Utils_ap(
-				A3($author$project$Main$minorLines, myX, myY, 0.5),
+				A3($author$project$Main$majorLines, myX, myY, 1.5),
 				_Utils_ap(
-					A3($author$project$Main$majorLines, myX, myY, 1.5),
-					A3($author$project$Main$populate, myX, myY, b))));
+					A3($author$project$Main$populate, myX, myY, b),
+					_List_fromArray(
+						[
+							A2($author$project$Main$box, myX, myY)
+						]))));
 	});
 var $author$project$Main$myModel = F3(
 	function (myX, myY, l) {
