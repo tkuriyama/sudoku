@@ -7,7 +7,7 @@ this is a list of lists, where each list logs state for a single step in the sol
 The `solver_logging.py` version of the solver implements the logging, ultimately writing the list of 
 lists to a JSON consisting a single object with key `model`. 
 
-The `test.json` file (included in this directory) looks like this:
+The `test.json` file (included in this directory) logs the iteraitons of the first puzzle from `sample.txt`:
 
 ```
 √ solver % jbro test.json -c 100                         
