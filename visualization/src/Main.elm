@@ -4,13 +4,17 @@ import String exposing (fromInt)
 
 import Color
 import Browser exposing (element)
-import Html exposing (Html)
+import Http
+import Html exposing (Html, h2, h3, div)
+import Html.Events exposing (onClick)
 import TypedSvg exposing (circle, svg, rect, line, text_)
 import TypedSvg.Attributes exposing (x, y, x1, y1, x2, y2, cx, cy, fill, r, rx,
                                      stroke, strokeWidth, opacity, class, fillOpacity,
                                      width, height, viewBox)
 import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
 import TypedSvg.Core exposing (Svg, text)
+
+import Json.Decode exposing (Decoder, Error(..), decodeString, list, string, int)
 
 type alias Point = (Float, Float)
 
@@ -22,8 +26,11 @@ type alias Cell = (Int, Int, List Int)
 type alias Board = List Cell
 type Step = Step Count Action Transform Stack Board
 
-type Msg = Update
-type alias Model = List Step
+type alias Model = { log : List Step,
+                     errorMsg : Maybe String } 
+type Msg = SendHttpRequest
+         | DataReceived (Result Http.Error (List Step))
+
     
 -- Board Image
 
@@ -103,13 +110,30 @@ myBoard myX myY b = (minorLines myX myY 0.5) ++
                     (populate myX myY b) ++
                     [box myX myY]
 
-myModel : Float -> Float -> Model -> List (Svg msg)
-myModel myX myY l =
+renderLog : Float -> Float -> Model -> List (Svg msg)
+renderLog myX myY l =
     case l of
         ((Step _ _ _ _ b)::_) -> myBoard myX myY b
-        [] -> myBoard myX myY []
-              
--- Main
+        [] -> myBoard myX myY []  
+
+renderError : String -> List (Svg msg)
+renderError s = [div []
+                     [ h3 [] ["Could not load data" ]
+                     , text s ]]
+                    
+render : Float -> Float -> Model -> List (Svg msg)
+render myX myY m =
+    case m.errorMsg of
+        Nothing ->  renderLog myX myY m.log
+        (Just e) -> renderError e 
+
+-- JSON
+
+modelDecoder : Decoder Model
+modelDecoder = undefined
+
+      
+-- Main IVUS
 
 testB : Board
 testB = let empty = List.range 0 9 
@@ -120,13 +144,56 @@ testB = let empty = List.range 0 9
         in List.map2 (\ (myCX, myCY) v -> (myCX, myCY, v)) inds vals
             
 init : () -> (Model, Cmd Msg)
-init _ = ([Step 0 Nothing Rows 1 testB], Cmd.none)
+init _ = ({ log = [Step 0 Nothing Rows 1 testB]
+          , errorMsg = Nothing}
+         , Cmd.none)
 
 view : Model -> Html Msg
-view m = svg [ viewBox 0 0 600 600 ] (myModel 500 500 m) 
+view m = svg [ viewBox 0 0 600 600 ] (render 500 500 m) 
 
-update : Msg -> Model -> (Model, Cmd Msg)
-update s m = (m, Cmd.none)
+-- update : Msg -> Model -> (Model, Cmd Msg)
+-- update s m = (m, Cmd.none)
+
+url : String
+url = "http://localhost:5019/model"
+
+getModel : Cmd Msg
+getModel = 
+    Http.get
+        { url = url
+        , expect = Http.expectJson DataReceived modelDecoder
+        }
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        SendHttpRequest ->
+            ( model, getModel )
+
+        DataReceived (Ok log) ->
+            ( { model | log = log }, Cmd.none )
+
+        DataReceived (Err httpError) ->
+            ( { model
+                | errorMsg = Just (buildErrorMessage httpError)
+              }
+            , Cmd.none
+            )
+
+
+buildErrorMessage : Http.Error -> String
+buildErrorMessage httpError =
+    case httpError of
+        Http.BadUrl message ->
+            message
+        Http.Timeout ->
+            "Server is taking too long to respond. Please try again later."
+        Http.NetworkError ->
+            "Unable to reach server."
+        Http.BadStatus statusCode ->
+            "Request failed with status code: " ++ String.fromInt statusCode
+        Http.BadBody message ->
+            message
 
 -- subscriptions : Model -> Sub Msg
 -- subscriptions m = none
