@@ -6987,6 +6987,11 @@ var $author$project$Main$genCell = F3(
 					$elm_community$typed_svg$TypedSvg$Core$text(disp)
 				]));
 	});
+var $elm$core$Basics$pow = _Basics_pow;
+var $author$project$Main$expScale = function (n) {
+	var x = n;
+	return (81 - A2($elm$core$Basics$pow, x, 2)) / 81;
+};
 var $elm_community$typed_svg$TypedSvg$Attributes$fill = A2(
 	$elm$core$Basics$composeL,
 	$elm_community$typed_svg$TypedSvg$Core$attribute('fill'),
@@ -7022,7 +7027,8 @@ var $author$project$Main$genCellBG = F3(
 					$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$lightGreen)),
 					$elm_community$typed_svg$TypedSvg$Attributes$opacity(
 					$elm_community$typed_svg$TypedSvg$Types$Opacity(
-						(10 - $elm$core$List$length(ns)) / 10))
+						$author$project$Main$expScale(
+							$elm$core$List$length(ns))))
 				]),
 			_List_Nil);
 	});

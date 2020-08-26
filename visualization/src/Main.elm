@@ -81,6 +81,10 @@ showCell ns =
         (x::[]) -> String.fromInt x
         _ -> "."
 
+expScale : Int -> Float
+expScale n = let x = toFloat n
+             in (81 - (x^2)) / 81
+             
 genCellBG : Float -> Float -> Cell -> Svg msg
 genCellBG myX myY (myCXInt, myCYInt, ns) =
     let myCX = toFloat myCXInt
@@ -92,7 +96,7 @@ genCellBG myX myY (myCXInt, myCYInt, ns) =
             , height (px <| myX / 9 - (offset) * 2)
             , rx (px <| 1)
             , fill <| Paint Color.lightGreen
-            , opacity <| Opacity <| (10 - (List.length ns |> toFloat)) / 10
+            , opacity <| Opacity <| expScale (List.length ns)
             ] [] 
 
 genCell : Float -> Float -> Cell -> Svg msg
