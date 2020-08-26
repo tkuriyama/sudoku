@@ -183,7 +183,7 @@ def solve(board, log=[]):
             log, step = add_log(log, step, 'Fill', t, len(boards), board)    
             
         if complete(board):
-            log, step = add_log(log, step, 'Nothing', 'Rows', len(boards), board, False)
+            log, step = add_log(log, step, 'None', 'Rows', len(boards), board, False)
             return show(board)
         
         if valid(board):            
@@ -192,7 +192,7 @@ def solve(board, log=[]):
         else:
             log, step = add_log(log, step, 'Invalid', 'Rows', len(boards), board)
             
-    log, step = add_log(log, step, 'Nothing', 'Rows', len(boards), board, False)
+    log, step = add_log(log, step, 'None', 'Rows', len(boards), board, False)
     return []
 
 def solve_with_log(board, out_fname):
