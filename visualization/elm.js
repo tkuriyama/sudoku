@@ -6124,7 +6124,7 @@ var $author$project$Main$actionDecoder = A2(
 				return $elm$json$Json$Decode$succeed(1);
 			case 'Extend':
 				return $elm$json$Json$Decode$succeed(1);
-			case 'Nothing':
+			case 'None':
 				return $elm$json$Json$Decode$succeed(3);
 			default:
 				return $elm$json$Json$Decode$fail('Unknown action.');
@@ -6251,11 +6251,7 @@ var $author$project$Main$testB = function () {
 		A2(
 			$elm$core$List$repeat,
 			9,
-			A2(
-				$elm$core$List$cons,
-				_List_fromArray(
-					[1]),
-				A2($elm$core$List$repeat, 8, empty))));
+			A2($elm$core$List$repeat, 9, empty)));
 	return A3(
 		$elm$core$List$map2,
 		F2(

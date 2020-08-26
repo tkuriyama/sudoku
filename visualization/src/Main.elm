@@ -160,7 +160,7 @@ actionDecoder =
                 "Prune" -> Decode.succeed Prune
                 "Fill" -> Decode.succeed Fill
                 "Extend" ->  Decode.succeed Fill
-                "Nothing" ->  Decode.succeed None
+                "None" ->  Decode.succeed None
                 _ -> Decode.fail <| "Unknown action.")
 
 stackDecoder : Decoder Int
@@ -191,8 +191,7 @@ logDecoder = Decode.list stepDecoder
 
 testB : Board
 testB = let empty = List.range 0 9 
-            vals = [1] :: List.repeat 8 empty |> List.repeat 9
-                   |> List.concat
+            vals = List.repeat 9 empty |> List.repeat 9 |> List.concat
             f n = List.range 0 8 |> List.map (\ m -> (n, m))
             inds = List.range 0 8 |> List.concatMap f 
         in List.map2 (\ (myCX, myCY) v -> (myCX, myCY, v)) inds vals

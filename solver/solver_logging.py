@@ -162,21 +162,29 @@ def score_progress(board):
     """Return # of candidates remaining in board."""
     return sum(sum(len(cell) for cell in row) for row in board)
 
+def log_board(board):
+    """Flatten board and add indices: [(i, j, cell)...]."""
+    flat = [None] * (len(board)**2)
+    for i, row in enumerate(board):
+        for j, cell in enumerate(row):
+            ind = i*len(row) + j
+            flat[ind] = (i, j, list(cell))
+    return flat
+
 def add_log(log, step, action, transform, stack, board, step_inc=True):
     """Return updated log and step count."""
-    b = [list(cell) for row in board for cell in row]
     log.append({'count': step,
                 'action': action,
                 'transform': transform,
                 'stack': stack,
-                'board': b})
+                'board': log_board(board)})
     return log, step + (1 if step_inc else 0)
 
 def solve(board, log=[]):
     """Solver: prune, fill, and search in order."""
     step = 0
     boards = [board]
-    log, step = add_log(log, step, 'Nothing', 'Rows', len(boards), board, False)
+    log, step = add_log(log, step, 'None', 'Rows', len(boards), board, False)
     
     while boards:
         board = boards.pop()    
