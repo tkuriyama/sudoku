@@ -177,6 +177,7 @@ def add_log(log, step, action, transform, stack, board, step_inc=True):
                 'action': action,
                 'transform': transform,
                 'stack': stack,
+                'score': score_progress(board),
                 'board': log_board(board)})
     return log, step + (1 if step_inc else 0)
 

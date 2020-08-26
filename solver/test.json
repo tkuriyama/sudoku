@@ -5,6 +5,7 @@
             "action": "None",
             "transform": "Rows",
             "stack": 1,
+            "score": 489,
             "board": [
                 [
                     0,
@@ -988,6 +989,7 @@
             "action": "Prune",
             "transform": "Rows",
             "stack": 0,
+            "score": 331,
             "board": [
                 [
                     0,
@@ -1813,6 +1815,7 @@
             "action": "Fill",
             "transform": "Rows",
             "stack": 0,
+            "score": 331,
             "board": [
                 [
                     0,
@@ -2638,6 +2641,7 @@
             "action": "Prune",
             "transform": "Cols",
             "stack": 0,
+            "score": 239,
             "board": [
                 [
                     0,
@@ -3371,6 +3375,7 @@
             "action": "Fill",
             "transform": "Cols",
             "stack": 0,
+            "score": 235,
             "board": [
                 [
                     0,
@@ -4100,6 +4105,7 @@
             "action": "Prune",
             "transform": "Boxes",
             "stack": 0,
+            "score": 192,
             "board": [
                 [
                     0,
@@ -4786,6 +4792,7 @@
             "action": "Fill",
             "transform": "Boxes",
             "stack": 0,
+            "score": 178,
             "board": [
                 [
                     0,
@@ -5458,6 +5465,7 @@
             "action": "Extend",
             "transform": "Rows",
             "stack": 1,
+            "score": 178,
             "board": [
                 [
                     0,
@@ -6130,6 +6138,7 @@
             "action": "Prune",
             "transform": "Rows",
             "stack": 0,
+            "score": 159,
             "board": [
                 [
                     0,
@@ -6783,6 +6792,7 @@
             "action": "Fill",
             "transform": "Rows",
             "stack": 0,
+            "score": 156,
             "board": [
                 [
                     0,
@@ -7433,6 +7443,7 @@
             "action": "Prune",
             "transform": "Cols",
             "stack": 0,
+            "score": 134,
             "board": [
                 [
                     0,
@@ -8061,6 +8072,7 @@
             "action": "Fill",
             "transform": "Cols",
             "stack": 0,
+            "score": 126,
             "board": [
                 [
                     0,
@@ -8681,6 +8693,7 @@
             "action": "Prune",
             "transform": "Boxes",
             "stack": 0,
+            "score": 122,
             "board": [
                 [
                     0,
@@ -9297,6 +9310,7 @@
             "action": "Fill",
             "transform": "Boxes",
             "stack": 0,
+            "score": 122,
             "board": [
                 [
                     0,
@@ -9913,6 +9927,7 @@
             "action": "Extend",
             "transform": "Rows",
             "stack": 1,
+            "score": 122,
             "board": [
                 [
                     0,
@@ -10529,6 +10544,7 @@
             "action": "Prune",
             "transform": "Rows",
             "stack": 0,
+            "score": 110,
             "board": [
                 [
                     0,
@@ -11133,6 +11149,7 @@
             "action": "Fill",
             "transform": "Rows",
             "stack": 0,
+            "score": 107,
             "board": [
                 [
                     0,
@@ -11734,6 +11751,7 @@
             "action": "Prune",
             "transform": "Cols",
             "stack": 0,
+            "score": 105,
             "board": [
                 [
                     0,
@@ -12333,6 +12351,7 @@
             "action": "Fill",
             "transform": "Cols",
             "stack": 0,
+            "score": 104,
             "board": [
                 [
                     0,
@@ -12931,6 +12950,7 @@
             "action": "Prune",
             "transform": "Boxes",
             "stack": 0,
+            "score": 99,
             "board": [
                 [
                     0,
@@ -13524,6 +13544,7 @@
             "action": "Fill",
             "transform": "Boxes",
             "stack": 0,
+            "score": 97,
             "board": [
                 [
                     0,
@@ -14115,6 +14136,7 @@
             "action": "Extend",
             "transform": "Rows",
             "stack": 2,
+            "score": 97,
             "board": [
                 [
                     0,
@@ -14706,6 +14728,7 @@
             "action": "Prune",
             "transform": "Rows",
             "stack": 1,
+            "score": 93,
             "board": [
                 [
                     0,
@@ -15293,6 +15316,7 @@
             "action": "Fill",
             "transform": "Rows",
             "stack": 1,
+            "score": 91,
             "board": [
                 [
                     0,
@@ -15878,6 +15902,7 @@
             "action": "Prune",
             "transform": "Cols",
             "stack": 1,
+            "score": 85,
             "board": [
                 [
                     0,
@@ -16457,6 +16482,7 @@
             "action": "Fill",
             "transform": "Cols",
             "stack": 1,
+            "score": 82,
             "board": [
                 [
                     0,
@@ -17033,6 +17059,7 @@
             "action": "Prune",
             "transform": "Boxes",
             "stack": 1,
+            "score": 81,
             "board": [
                 [
                     0,
@@ -17608,6 +17635,7 @@
             "action": "Fill",
             "transform": "Boxes",
             "stack": 1,
+            "score": 81,
             "board": [
                 [
                     0,
@@ -18183,6 +18211,7 @@
             "action": "None",
             "transform": "Rows",
             "stack": 1,
+            "score": 81,
             "board": [
                 [
                     0,

@@ -14,7 +14,7 @@ import TypedSvg.Attributes exposing (x, y, x1, y1, x2, y2, cx, cy, fill, r, rx,
 import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
 import TypedSvg.Core exposing (Svg, text)
 
-import Json.Decode as Decode exposing (Decoder, Error(..), list, string, int, field, map4, map5)
+import Json.Decode as Decode exposing (Decoder, Error(..), list, string, int, field, map4, map6)
 -- import Json.Decode.Pipeline exposing (required)
     
 type alias Point = (Float, Float)
@@ -29,6 +29,7 @@ type alias Step = { count : Int
                   , action : Action
                   , transform : Transform
                   , stack : Int
+                  , score: Int
                   , board : Board } 
 
 type alias Model = { log : List Step,
@@ -177,11 +178,12 @@ boardDecoder = Decode.list <| arrayAsTuple3 Decode.int Decode.int (Decode.list D
 
 stepDecoder : Decoder Step
 stepDecoder =
-    Decode.map5 Step
-         (Decode.field "count" countDecoder)
+    Decode.map6 Step
+         (Decode.field "count" Decode.int)
          (Decode.field "action" actionDecoder)
          (Decode.field "transform" transformDecoder)
-         (Decode.field "stack" stackDecoder)
+         (Decode.field "stack" Decode.int)
+         (Decode.field "score" Decode.int)
          (Decode.field "board" boardDecoder)
 
 logDecoder : Decoder (List Step)
@@ -201,6 +203,7 @@ initModel = { log = [{ count = 0
                      , action = None
                      , transform = Rows
                      , stack = 1
+                     , score = 9*9*9
                      , board = testB}]
             , errorMsg = Nothing }
     
