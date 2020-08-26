@@ -185,7 +185,7 @@ def solve(board, log=[]):
     """Solver: prune, fill, and search in order."""
     step = 0
     boards = [board]
-    log, step = add_log(log, step, 'None', 'Rows', len(boards), board, False)
+    log, step = add_log(log, step, 'None', 'Rows', len(boards), board)
     
     while boards:
         board = boards.pop()    
