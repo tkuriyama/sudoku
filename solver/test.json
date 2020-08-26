@@ -1,11 +1,11 @@
 {
     "model": [
-        [
-            0,
-            "Nothing",
-            "Rows",
-            1,
-            [
+        {
+            "count": 0,
+            "action": "Nothing",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     1,
                     2,
@@ -658,13 +658,13 @@
                     9
                 ]
             ]
-        ],
-        [
-            0,
-            "Prune",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 0,
+            "action": "Prune",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     1,
                     2,
@@ -1159,13 +1159,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            1,
-            "Fill",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 1,
+            "action": "Fill",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     1,
                     2,
@@ -1660,13 +1660,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            2,
-            "Prune",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 2,
+            "action": "Prune",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     1,
                     2,
@@ -2069,13 +2069,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            3,
-            "Fill",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 3,
+            "action": "Fill",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     1,
                     2,
@@ -2474,13 +2474,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            4,
-            "Prune",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 4,
+            "action": "Prune",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8,
                     2,
@@ -2836,13 +2836,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            5,
-            "Fill",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 5,
+            "action": "Fill",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8,
                     2,
@@ -3184,13 +3184,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            6,
-            "Extend",
-            "Rows",
-            1,
-            [
+        },
+        {
+            "count": 6,
+            "action": "Extend",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     8,
                     2,
@@ -3532,13 +3532,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            7,
-            "Prune",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 7,
+            "action": "Prune",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     8,
                     2,
@@ -3861,13 +3861,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            8,
-            "Fill",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 8,
+            "action": "Fill",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     8,
                     2,
@@ -4187,13 +4187,13 @@
                     7
                 ]
             ]
-        ],
-        [
-            9,
-            "Prune",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 9,
+            "action": "Prune",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     8,
                     2,
@@ -4491,13 +4491,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            10,
-            "Fill",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 10,
+            "action": "Fill",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -4787,13 +4787,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            11,
-            "Prune",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 11,
+            "action": "Prune",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -5079,13 +5079,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            12,
-            "Fill",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 12,
+            "action": "Fill",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -5371,13 +5371,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            13,
-            "Extend",
-            "Rows",
-            1,
-            [
+        },
+        {
+            "count": 13,
+            "action": "Extend",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -5663,13 +5663,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            14,
-            "Prune",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 14,
+            "action": "Prune",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -5943,13 +5943,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            15,
-            "Fill",
-            "Rows",
-            0,
-            [
+        },
+        {
+            "count": 15,
+            "action": "Fill",
+            "transform": "Rows",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -6220,13 +6220,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            16,
-            "Prune",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 16,
+            "action": "Prune",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -6495,13 +6495,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            17,
-            "Fill",
-            "Cols",
-            0,
-            [
+        },
+        {
+            "count": 17,
+            "action": "Fill",
+            "transform": "Cols",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -6769,13 +6769,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            18,
-            "Prune",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 18,
+            "action": "Prune",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -7038,13 +7038,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            19,
-            "Fill",
-            "Boxes",
-            0,
-            [
+        },
+        {
+            "count": 19,
+            "action": "Fill",
+            "transform": "Boxes",
+            "stack": 0,
+            "board": [
                 [
                     8
                 ],
@@ -7305,13 +7305,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            20,
-            "Extend",
-            "Rows",
-            2,
-            [
+        },
+        {
+            "count": 20,
+            "action": "Extend",
+            "transform": "Rows",
+            "stack": 2,
+            "board": [
                 [
                     8
                 ],
@@ -7572,13 +7572,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            21,
-            "Prune",
-            "Rows",
-            1,
-            [
+        },
+        {
+            "count": 21,
+            "action": "Prune",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -7835,13 +7835,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            22,
-            "Fill",
-            "Rows",
-            1,
-            [
+        },
+        {
+            "count": 22,
+            "action": "Fill",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -8096,13 +8096,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            23,
-            "Prune",
-            "Cols",
-            1,
-            [
+        },
+        {
+            "count": 23,
+            "action": "Prune",
+            "transform": "Cols",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -8351,13 +8351,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            24,
-            "Fill",
-            "Cols",
-            1,
-            [
+        },
+        {
+            "count": 24,
+            "action": "Fill",
+            "transform": "Cols",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -8603,13 +8603,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            25,
-            "Prune",
-            "Boxes",
-            1,
-            [
+        },
+        {
+            "count": 25,
+            "action": "Prune",
+            "transform": "Boxes",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -8854,13 +8854,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            26,
-            "Fill",
-            "Boxes",
-            1,
-            [
+        },
+        {
+            "count": 26,
+            "action": "Fill",
+            "transform": "Boxes",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -9105,13 +9105,13 @@
                     6
                 ]
             ]
-        ],
-        [
-            27,
-            "Nothing",
-            "Rows",
-            1,
-            [
+        },
+        {
+            "count": 27,
+            "action": "None",
+            "transform": "Rows",
+            "stack": 1,
+            "board": [
                 [
                     8
                 ],
@@ -9356,6 +9356,6 @@
                     6
                 ]
             ]
-        ]
+        }
     ]
 }

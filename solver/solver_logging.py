@@ -165,7 +165,11 @@ def score_progress(board):
 def add_log(log, step, action, transform, stack, board, step_inc=True):
     """Return updated log and step count."""
     b = [list(cell) for row in board for cell in row]
-    log.append([step, action, transform, stack, b])
+    log.append({'count': step,
+                'action': action,
+                'transform': transform,
+                'stack': stack,
+                'board': b})
     return log, step + (1 if step_inc else 0)
 
 def solve(board, log=[]):
