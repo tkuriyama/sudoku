@@ -15,8 +15,9 @@ import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
 import TypedSvg.Core exposing (Svg, text)
 
 import Json.Decode as Decode exposing (Decoder, Error(..), list, string, int, field, map4, map6)
--- import Json.Decode.Pipeline exposing (required)
-    
+
+import Browser.Events exposing (onKeyPress)
+
 type alias Point = (Float, Float)
 
 type alias Count = Int
@@ -36,6 +37,7 @@ type alias Model = { log : List Step,
                      errorMsg : Maybe String } 
 type Msg = SendHttpRequest
          | DataReceived (Result Http.Error (List Step))
+         | KeyPressed
 
     
 -- Board Image
@@ -162,6 +164,7 @@ actionDecoder =
                 "Fill" -> Decode.succeed Fill
                 "Extend" ->  Decode.succeed Fill
                 "None" ->  Decode.succeed None
+                "Invalid" -> Decode.succeed Invalid
                 _ -> Decode.fail <| "Unknown action.")
 
 stackDecoder : Decoder Int
@@ -213,12 +216,8 @@ init _ = (initModel, getModel)
 view : Model -> Html Msg
 view m = svg [ viewBox 0 0 600 600 ] (render 500 500 m) 
 
--- update : Msg -> Model -> (Model, Cmd Msg)
--- update s m = (m, Cmd.none)
-
 url : String
 url = "http://localhost:3000/model"
-
     
 getModel : Cmd Msg
 getModel = 
@@ -227,15 +226,19 @@ getModel =
         , expect = Http.expectJson DataReceived logDecoder
         }
 
+iterModel : Model -> Model
+iterModel { log } = case log of
+                        [] -> { log = [], errorMsg = Just "Empty log!" }
+                        (s::[]) -> { log = [s], errorMsg = Nothing }
+                        (x::y::ys) -> { log = (y::ys), errorMsg = Nothing }
+                              
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SendHttpRequest ->
-            ( model, getModel )
-
+        SendHttpRequest -> ( model, getModel )
+        KeyPressed -> ( iterModel model, Cmd.none ) 
         DataReceived (Ok log) ->
             ( { model | log = log }, Cmd.none )
-
         DataReceived (Err httpError) ->
             ( { model | errorMsg = Just (buildErrorMessage httpError)
               }
@@ -256,13 +259,14 @@ buildErrorMessage httpError =
         Http.BadBody message ->
             message
 
--- subscriptions : Model -> Sub Msg
--- subscriptions m = none
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    onKeyPress (Decode.succeed KeyPressed)
            
 main = element 
     { init = init
     , view = view
     , update = update
-    , subscriptions = \_ -> Sub.none
+    , subscriptions = subscriptions
     }
 

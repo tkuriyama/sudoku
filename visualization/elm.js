@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.cK.a6 === region.c7.a6)
+	if (region.cK.a8 === region.c7.a8)
 	{
-		return 'on line ' + region.cK.a6;
+		return 'on line ' + region.cK.a8;
 	}
-	return 'on lines ' + region.cK.a6 + ' through ' + region.c7.a6;
+	return 'on lines ' + region.cK.a8 + ' through ' + region.c7.a8;
 }
 
 
@@ -2704,7 +2704,7 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		ai: func(record.ai),
+		aj: func(record.aj),
 		cL: record.cL,
 		cw: record.cw
 	}
@@ -2974,7 +2974,7 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.ai;
+		var message = !tag ? value : tag < 3 ? value.a : value.aj;
 		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.cL;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
@@ -6109,6 +6109,7 @@ var $author$project$Main$Step = F6(
 		return {cT: action, bN: board, c2: count, dV: score, d$: stack, d6: transform};
 	});
 var $author$project$Main$Fill = 1;
+var $author$project$Main$Invalid = 4;
 var $author$project$Main$None = 3;
 var $author$project$Main$Prune = 0;
 var $elm$json$Json$Decode$andThen = _Json_andThen;
@@ -6126,6 +6127,8 @@ var $author$project$Main$actionDecoder = A2(
 				return $elm$json$Json$Decode$succeed(1);
 			case 'None':
 				return $elm$json$Json$Decode$succeed(3);
+			case 'Invalid':
+				return $elm$json$Json$Decode$succeed(4);
 			default:
 				return $elm$json$Json$Decode$fail('Unknown action.');
 		}
@@ -6263,8 +6266,8 @@ var $author$project$Main$testB = function () {
 		vals);
 }();
 var $author$project$Main$initModel = {
-	bq: $elm$core$Maybe$Nothing,
-	bw: _List_fromArray(
+	av: $elm$core$Maybe$Nothing,
+	ai: _List_fromArray(
 		[
 			{cT: 3, bN: $author$project$Main$testB, c2: 0, dV: (9 * 9) * 9, d$: 1, d6: 0}
 		])
@@ -6272,8 +6275,281 @@ var $author$project$Main$initModel = {
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2($author$project$Main$initModel, $author$project$Main$getModel);
 };
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Main$KeyPressed = {$: 2};
+var $elm$browser$Browser$Events$Document = 0;
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 0, a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {dF: pids, d1: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (!node) {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === -2) {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {c9: event, dp: key};
+	});
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (!node) {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.dF,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.dp;
+		var event = _v0.c9;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.d1);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onKeyPress = A2($elm$browser$Browser$Events$on, 0, 'keypress');
+var $author$project$Main$subscriptions = function (model) {
+	return $elm$browser$Browser$Events$onKeyPress(
+		$elm$json$Json$Decode$succeed($author$project$Main$KeyPressed));
+};
 var $author$project$Main$buildErrorMessage = function (httpError) {
 	switch (httpError.$) {
 		case 0:
@@ -6291,31 +6567,63 @@ var $author$project$Main$buildErrorMessage = function (httpError) {
 			return message;
 	}
 };
+var $author$project$Main$iterModel = function (_v0) {
+	var log = _v0.ai;
+	if (!log.b) {
+		return {
+			av: $elm$core$Maybe$Just('Empty log!'),
+			ai: _List_Nil
+		};
+	} else {
+		if (!log.b.b) {
+			var s = log.a;
+			return {
+				av: $elm$core$Maybe$Nothing,
+				ai: _List_fromArray(
+					[s])
+			};
+		} else {
+			var x = log.a;
+			var _v2 = log.b;
+			var y = _v2.a;
+			var ys = _v2.b;
+			return {
+				av: $elm$core$Maybe$Nothing,
+				ai: A2($elm$core$List$cons, y, ys)
+			};
+		}
+	}
+};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (!msg.$) {
-			return _Utils_Tuple2(model, $author$project$Main$getModel);
-		} else {
-			if (!msg.a.$) {
-				var log = msg.a.a;
+		switch (msg.$) {
+			case 0:
+				return _Utils_Tuple2(model, $author$project$Main$getModel);
+			case 2:
 				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{bw: log}),
+					$author$project$Main$iterModel(model),
 					$elm$core$Platform$Cmd$none);
-			} else {
-				var httpError = msg.a.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							bq: $elm$core$Maybe$Just(
-								$author$project$Main$buildErrorMessage(httpError))
-						}),
-					$elm$core$Platform$Cmd$none);
-			}
+			default:
+				if (!msg.a.$) {
+					var log = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{ai: log}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var httpError = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								av: $elm$core$Maybe$Just(
+									$author$project$Main$buildErrorMessage(httpError))
+							}),
+						$elm$core$Platform$Cmd$none);
+				}
 		}
 	});
 var $elm$virtual_dom$VirtualDom$attribute = F2(
@@ -6754,9 +7062,9 @@ var $author$project$Main$renderLog = F3(
 	});
 var $author$project$Main$render = F3(
 	function (myX, myY, m) {
-		var _v0 = m.bq;
+		var _v0 = m.av;
 		if (_v0.$ === 1) {
-			return A3($author$project$Main$renderLog, myX, myY, m.bw);
+			return A3($author$project$Main$renderLog, myX, myY, m.ai);
 		} else {
 			var e = _v0.a;
 			return $author$project$Main$renderError(e);
@@ -6787,13 +7095,6 @@ var $author$project$Main$view = function (m) {
 		A3($author$project$Main$render, 500, 500, m));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{
-		eJ: $author$project$Main$init,
-		fb: function (_v0) {
-			return $elm$core$Platform$Sub$none;
-		},
-		fm: $author$project$Main$update,
-		fo: $author$project$Main$view
-	});
+	{eJ: $author$project$Main$init, fb: $author$project$Main$subscriptions, fm: $author$project$Main$update, fo: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
