@@ -14,17 +14,22 @@ import TypedSvg.Attributes exposing (x, y, x1, y1, x2, y2, cx, cy, fill, r, rx,
 import TypedSvg.Types exposing (Paint(..), px, Opacity(..))
 import TypedSvg.Core exposing (Svg, text)
 
-import Json.Decode exposing (Decoder, Error(..), decodeString, list, string, int)
-
+import Json.Decode as Decode exposing (Decoder, Error(..), list, string, int, field, map4, map5)
+-- import Json.Decode.Pipeline exposing (required)
+    
 type alias Point = (Float, Float)
 
 type alias Count = Int
-type Action = Transition | Prune | Fill | Extend | Nothing | Invalid
+type Action = Prune | Fill | Extend | None | Invalid
 type Transform = Rows | Cols | Boxes
 type alias Stack = Int
 type alias Cell = (Int, Int, List Int)
 type alias Board = List Cell
-type Step = Step Count Action Transform Stack Board
+type alias Step = { count : Int
+                  , action : Action
+                  , transform : Transform
+                  , stack : Int
+                  , board : Board } 
 
 type alias Model = { log : List Step,
                      errorMsg : Maybe String } 
@@ -103,23 +108,26 @@ populate : Float -> Float -> Board -> List (Svg msg)
 populate myX myY cs =
          List.map (genCellBG myX myY) cs ++
          List.map (genCell myX myY) cs         
-
+    
 myBoard : Float -> Float -> Board -> List (Svg msg)
 myBoard myX myY b = (minorLines myX myY 0.5) ++
                     (majorLines myX myY 1.5) ++
                     (populate myX myY b) ++
                     [box myX myY]
 
-renderLog : Float -> Float -> Model -> List (Svg msg)
+renderLog : Float -> Float -> List Step -> List (Svg msg)
 renderLog myX myY l =
     case l of
-        ((Step _ _ _ _ b)::_) -> myBoard myX myY b
+        ({board}::_) -> myBoard myX myY board
         [] -> myBoard myX myY []  
 
 renderError : String -> List (Svg msg)
-renderError s = [div []
-                     [ h3 [] ["Could not load data" ]
-                     , text s ]]
+renderError s = [text_ [ x (px 10)
+                       , y (px 10)
+                       , class ["errorText"]
+                       ]
+                       [text s ]
+                ]
                     
 render : Float -> Float -> Model -> List (Svg msg)
 render myX myY m =
@@ -129,10 +137,56 @@ render myX myY m =
 
 -- JSON
 
-modelDecoder : Decoder Model
-modelDecoder = undefined
+countDecoder : Decoder Stack
+countDecoder = Decode.int
 
-      
+transformDecoder : Decoder Transform
+transformDecoder =
+    Decode.string
+    |> Decode.andThen
+       (\ s ->
+            case s of
+                "Rows" -> Decode.succeed Rows
+                "Cols" -> Decode.succeed Cols
+                "Boxes" -> Decode.succeed Boxes
+                _ -> Decode.fail <| "Unknown transformation.")
+
+actionDecoder : Decoder Action
+actionDecoder =
+    Decode.string
+    |> Decode.andThen
+       (\ s ->
+            case s of
+                "Prune" -> Decode.succeed Prune
+                "Fill" -> Decode.succeed Fill
+                "Extend" ->  Decode.succeed Fill
+                "Nothing" ->  Decode.succeed None
+                _ -> Decode.fail <| "Unknown action.")
+
+stackDecoder : Decoder Int
+stackDecoder = Decode.int               
+           
+arrayAsTuple3 a b c =
+    Decode.index 0 a
+        |> Decode.andThen (\ aVal -> Decode.index 1 b
+        |> Decode.andThen (\ bVal -> Decode.index 2 c
+        |> Decode.andThen (\ cVal -> Decode.succeed (aVal, bVal, cVal))))
+              
+boardDecoder : Decoder Board
+boardDecoder = Decode.list <| arrayAsTuple3 Decode.int Decode.int (Decode.list Decode.int)
+
+stepDecoder : Decoder Step
+stepDecoder =
+    Decode.map5 Step
+         (Decode.field "count" countDecoder)
+         (Decode.field "action" actionDecoder)
+         (Decode.field "transform" transformDecoder)
+         (Decode.field "stack" stackDecoder)
+         (Decode.field "board" boardDecoder)
+
+logDecoder : Decoder (List Step)
+logDecoder = Decode.list stepDecoder
+  
 -- Main IVUS
 
 testB : Board
@@ -142,11 +196,17 @@ testB = let empty = List.range 0 9
             f n = List.range 0 8 |> List.map (\ m -> (n, m))
             inds = List.range 0 8 |> List.concatMap f 
         in List.map2 (\ (myCX, myCY) v -> (myCX, myCY, v)) inds vals
-            
+
+initModel : Model            
+initModel = { log = [{ count = 0
+                     , action = None
+                     , transform = Rows
+                     , stack = 1
+                     , board = testB}]
+            , errorMsg = Nothing }
+    
 init : () -> (Model, Cmd Msg)
-init _ = ({ log = [Step 0 Nothing Rows 1 testB]
-          , errorMsg = Nothing}
-         , Cmd.none)
+init _ = (initModel, getModel)
 
 view : Model -> Html Msg
 view m = svg [ viewBox 0 0 600 600 ] (render 500 500 m) 
@@ -155,13 +215,14 @@ view m = svg [ viewBox 0 0 600 600 ] (render 500 500 m)
 -- update s m = (m, Cmd.none)
 
 url : String
-url = "http://localhost:5019/model"
+url = "http://localhost:3000/model"
 
+    
 getModel : Cmd Msg
 getModel = 
     Http.get
         { url = url
-        , expect = Http.expectJson DataReceived modelDecoder
+        , expect = Http.expectJson DataReceived logDecoder
         }
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -174,12 +235,10 @@ update msg model =
             ( { model | log = log }, Cmd.none )
 
         DataReceived (Err httpError) ->
-            ( { model
-                | errorMsg = Just (buildErrorMessage httpError)
+            ( { model | errorMsg = Just (buildErrorMessage httpError)
               }
             , Cmd.none
             )
-
 
 buildErrorMessage : Http.Error -> String
 buildErrorMessage httpError =
