@@ -7114,6 +7114,37 @@ var $author$project$Main$showBoard = F4(
 							A2($author$project$Main$box, myX, myY)
 						]))));
 	});
+var $author$project$Main$showInfo = F2(
+	function (myX, myY) {
+		var showText = function (_v0) {
+			var i = _v0.a;
+			var txt = _v0.b;
+			return A2(
+				$elm_community$typed_svg$TypedSvg$text_,
+				_List_fromArray(
+					[
+						$elm_community$typed_svg$TypedSvg$Attributes$x(
+						$elm_community$typed_svg$TypedSvg$Types$px(myX + 15)),
+						$elm_community$typed_svg$TypedSvg$Attributes$y(
+						$elm_community$typed_svg$TypedSvg$Types$px((i * 20) + 200)),
+						$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
+						$elm_community$typed_svg$TypedSvg$Types$px(12)),
+						$elm_community$typed_svg$TypedSvg$Attributes$class(
+						_List_fromArray(
+							['infoText']))
+					]),
+				_List_fromArray(
+					[
+						$elm_community$typed_svg$TypedSvg$Core$text(txt)
+					]));
+		};
+		var info = _List_fromArray(
+			[
+				_Utils_Tuple2(1, 'Press any key to move forward.'),
+				_Utils_Tuple2(2, 'Press \'p\' to move back.')
+			]);
+		return A2($elm$core$List$map, showText, info);
+	});
 var $author$project$Main$showAction = function (a) {
 	switch (a) {
 		case 0:
@@ -7179,12 +7210,12 @@ var $author$project$Main$showStat = F3(
 						$elm_community$typed_svg$TypedSvg$Attributes$x(
 						$elm_community$typed_svg$TypedSvg$Types$px(myX + 15)),
 						$elm_community$typed_svg$TypedSvg$Attributes$y(
-						$elm_community$typed_svg$TypedSvg$Types$px(i * 20)),
+						$elm_community$typed_svg$TypedSvg$Types$px(i * 24)),
 						$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
 						$elm_community$typed_svg$TypedSvg$Types$px(12)),
 						$elm_community$typed_svg$TypedSvg$Attributes$class(
 						_List_fromArray(
-							['infoText']))
+							['statText']))
 					]),
 				_List_fromArray(
 					[
@@ -7199,7 +7230,9 @@ var $author$project$Main$renderLog = F3(
 			var s = l.a;
 			return _Utils_ap(
 				A4($author$project$Main$showBoard, myX, myY, s.bI, s.c_),
-				A3($author$project$Main$showStat, myX, myY, s));
+				_Utils_ap(
+					A3($author$project$Main$showStat, myX, myY, s),
+					A2($author$project$Main$showInfo, myX, myY)));
 		} else {
 			return A4($author$project$Main$showBoard, myX, myY, 3, _List_Nil);
 		}
@@ -7234,9 +7267,9 @@ var $author$project$Main$view = function (m) {
 		$elm_community$typed_svg$TypedSvg$svg,
 		_List_fromArray(
 			[
-				A4($elm_community$typed_svg$TypedSvg$Attributes$viewBox, 0, 0, 900, 900)
+				A4($elm_community$typed_svg$TypedSvg$Attributes$viewBox, 0, 0, 1100, 800)
 			]),
-		A3($author$project$Main$render, 650, 650, m));
+		A3($author$project$Main$render, 750, 750, m));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{eK: $author$project$Main$init, fc: $author$project$Main$subscriptions, fn: $author$project$Main$update, fp: $author$project$Main$view});

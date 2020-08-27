@@ -130,16 +130,30 @@ showStat myX myY { count, action, transform, score, stack } =
                  (4, "Action", showAction action),
                  (5, "Transform", showTransform transform)]
         showText (i, label, s) = text_ [ x (px (myX + 15))
-                                       , y (px (i*20))
+                                       , y (px (i*24))
                                        , strokeWidth (px 12)
-                                       , class ["infoText"]] 
+                                       , class ["statText"]] 
                                       [ text <| label ++ ": " ++ s]
     in List.map showText stats
-    
+
+showInfo : Float -> Float -> List (Svg msg)
+showInfo myX myY =
+    let info = [(1, "Press any key to move forward."),
+                 (2, "Press 'p' to move back.")
+                 ]
+        showText (i, txt) = text_ [ x (px (myX + 15))
+                                  , y (px (i*20 + 200))
+                                  , strokeWidth (px 12)
+                                  , class ["infoText"]] 
+                                 [ text txt]
+    in List.map showText info
+
 renderLog : Float -> Float -> List Step -> List (Svg msg)
 renderLog myX myY l =
     case l of
-        (s::_) -> (showBoard myX myY s.action s.board) ++ (showStat myX myY s)
+        (s::_) -> (showBoard myX myY s.action s.board) ++
+                  (showStat myX myY s) ++
+                  (showInfo myX myY)
         [] -> showBoard myX myY None []  
 
 renderError : String -> List (Svg msg)
@@ -179,7 +193,7 @@ init : () -> (Model, Cmd Msg)
 init _ = (initModel, getModel)
 
 view : Model -> Html Msg
-view m = svg [ viewBox 0 0 900 900 ] (render 650 650 m) 
+view m = svg [ viewBox 0 0 1100 800 ] (render 750 750 m) 
 
 url : String
 url = "http://localhost:3000/model"

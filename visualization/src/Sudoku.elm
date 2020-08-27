@@ -23,6 +23,7 @@ type alias Point = (Float, Float)
 
 type alias Model = { log : List Step,
                      pastLog : List Step,
+                     logDiff : List ,
                      errorMsg : Maybe String }
     
 type Msg = SendHttpRequest
