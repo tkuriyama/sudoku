@@ -83,20 +83,24 @@ showCell ns =
 
 expScale : Int -> Float
 expScale n = let x = toFloat n
-             in (81 - (x^2)) / 81
+                 div = if n > 2 then 2 else 1
+             in ((81 - (x^2)) / 81) / div
              
-genCellBG : Float -> Float -> Cell -> Svg msg
-genCellBG myX myY (myCXInt, myCYInt, ns) =
+genCellBG : Float -> Float -> Action -> Cell -> Svg msg
+genCellBG myX myY a (myCXInt, myCYInt, ns) =
     let myCX = toFloat myCXInt
         myCY = toFloat myCYInt
         offset = 0.5
+        (bgColor, op) = case a of
+                     Invalid -> (Color.lightRed, 0.25)
+                     _ -> (Color.lightGreen, expScale (List.length ns))
     in rect [ x (px <| myCX * myX / 9 + offset)
             , y (px <| myCY * myY / 9 + offset)
             , width (px <| myX / 9 - (offset) * 2 )
             , height (px <| myX / 9 - (offset) * 2)
             , rx (px <| 1)
-            , fill <| Paint Color.lightGreen
-            , opacity <| Opacity <| expScale (List.length ns)
+            , fill <| Paint bgColor
+            , opacity <| Opacity op
             ] [] 
 
 genCell : Float -> Float -> Cell -> Svg msg
@@ -111,22 +115,50 @@ genCell myX myY (myCXInt, myCYInt, ns) =
              , strokeWidth (px 12)
              ] [text disp] 
     
-populate : Float -> Float -> Board -> List (Svg msg)
-populate myX myY cs =
-         List.map (genCellBG myX myY) cs ++
+populate : Float -> Float -> Action -> Board -> List (Svg msg)
+populate myX myY a cs =
+         List.map (genCellBG myX myY a) cs ++
          List.map (genCell myX myY) cs         
     
-myBoard : Float -> Float -> Board -> List (Svg msg)
-myBoard myX myY b = (minorLines myX myY 0.5) ++
-                    (majorLines myX myY 1.5) ++
-                    (populate myX myY b) ++
-                    [box myX myY]
+showBoard : Float -> Float -> Action -> Board -> List (Svg msg)
+showBoard myX myY a b =
+    (minorLines myX myY 0.5) ++
+    (majorLines myX myY 1.5) ++
+    (populate myX myY a b) ++
+    [box myX myY]
 
+showAction : Action -> String
+showAction a = case a of
+                   Prune -> "Prune"
+                   Fill -> "Fill"
+                   Extend -> "Extend"
+                   None -> "None"
+                   Invalid -> "Invalid Board"
+
+showTransform : Transform -> String
+showTransform t = case t of
+                      Rows -> "Rows"
+                      Cols -> "Cols"
+                      Boxes -> "Boxes"
+                              
+showStat : Float -> Float -> Step -> List (Svg msg)
+showStat myX myY { count, action, transform, score, stack } =
+    let stats = [(1, "Iter", fromInt count),
+                 (2, "Score", fromInt score),
+                 (3, "Stack", fromInt stack),
+                 (4, "Action", showAction action),
+                 (5, "Transform", showTransform transform)]
+        showText (i, label, s) = text_ [ x (px (myX + 15))
+                                       , y (px (i*18))
+                                       , class ["infoText"]] 
+                                      [ text <| label ++ ": " ++ s]
+    in List.map showText stats
+    
 renderLog : Float -> Float -> List Step -> List (Svg msg)
 renderLog myX myY l =
     case l of
-        ({board}::_) -> myBoard myX myY board
-        [] -> myBoard myX myY []  
+        (s::_) -> (showBoard myX myY s.action s.board) ++ (showStat myX myY s)
+        [] -> showBoard myX myY None []  
 
 renderError : String -> List (Svg msg)
 renderError s = [text_ [ x (px 10)
@@ -166,17 +198,14 @@ actionDecoder =
             case s of
                 "Prune" -> Decode.succeed Prune
                 "Fill" -> Decode.succeed Fill
-                "Extend" ->  Decode.succeed Fill
+                "Extend" ->  Decode.succeed Extend
                 "None" ->  Decode.succeed None
                 "Invalid" -> Decode.succeed Invalid
                 _ -> Decode.fail <| "Unknown action.")
 
-stackDecoder : Decoder Int
-stackDecoder = Decode.int               
-           
 arrayAsTuple3 a b c =
-    Decode.index 0 a
-        |> Decode.andThen (\ aVal -> Decode.index 1 b
+    Decode.index 1 a
+        |> Decode.andThen (\ aVal -> Decode.index 0 b
         |> Decode.andThen (\ bVal -> Decode.index 2 c
         |> Decode.andThen (\ cVal -> Decode.succeed (aVal, bVal, cVal))))
               
@@ -218,7 +247,7 @@ init : () -> (Model, Cmd Msg)
 init _ = (initModel, getModel)
 
 view : Model -> Html Msg
-view m = svg [ viewBox 0 0 600 600 ] (render 500 500 m) 
+view m = svg [ viewBox 0 0 700 700 ] (render 500 500 m) 
 
 url : String
 url = "http://localhost:3000/model"

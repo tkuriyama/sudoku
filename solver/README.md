@@ -1,27 +1,22 @@
 # JSON Log
 
-The Elm visualization expects log data as `type Model = List (Step Action Transform Stack Board)` 
-(where Action, Transform, Stack, and Board are type aliases defined in `Main.elm`). In Python terms,
-this is a list of lists, where each list logs state for a single step in the solver.
+The Elm visualization expects log data as a list of steps, where `type alias Step = { count : Int, action : Action, transform : Transform, stack : Int, score: Int, board : Board }`. Action, Transform, Stack, Score, and Board are type aliases defined in `Main.elm`). In Python terms, this is a list of dicts, where each list logs state for a single step in the solver.
 
 The `solver_logging.py` version of the solver implements the logging, ultimately writing the list of 
-lists to a JSON consisting a single object with key `model`. 
+dicts to a JSON consisting of a single object with key `model`. 
 
-The `test.json` file (included in this directory) logs the iteraitons of the first puzzle from `sample.txt`:
+The `easy.json` file (included in this directory) logs the iterations of an easy puzzle defined in `solver_logging.py`.
 
 ```
-√ solver % jbro test.json -c 100                         
+√ solver % jbro -c 100 easy.json                                                                                    (master)sudoku
 
 > Show first 100 chars of file
 {
   "model": [
-    [
-      0,
-      "Nothing",
-      "Rows",
-      1,
-      [
+    {
+      "action": "None",
+      "board": [
         [
-          1,
+          0,
+          0,
 ```
-

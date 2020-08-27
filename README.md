@@ -11,6 +11,6 @@ The Python solver records the steps performed throughout its iterations, to be f
 
 ## Visualization
 
-The Elm code compiles a visualization of the solver's iterations (in SVG animations). 
+The Elm code compiles an SVG visualization of the solver's iterations. 
 
 *[See details](https://github.com/tkuriyama/sudoku/tree/master/visualization).*
