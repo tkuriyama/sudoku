@@ -221,12 +221,14 @@ def solve_with_log(board, out_fname):
 
 def main():
     """Main: run solve() with some samples."""
-    with open('samples.txt', 'r') as f:
-        puzzles = [parse(line.strip()) for line in f.readlines()]
-    for i, p in enumerate(puzzles):
-        print('\nSolving puzzle {}'.format(i))
+    easy = parse('..6...94.9.....3....4.92...6.7.1..2.5.23.64.9.3..4.7.5...68.5....5.....4.98...1..')
+    hard = parse('...16..2...2...8.5..5..36.9....5.18...........96.7....1.89..3..4.9...7...5..16...')    
+    nefarious = parse('000060080020000000001000000070000102500030' +
+                      '000000000400004201000300700600000000050')
+    pairs = ((easy, 'easy.json'), (hard, 'hard.json'), (nefarious, 'nefarious.json'))
+    for p, fname in pairs:
         print(show(p))
-        print(solve(p))
+        print(solve_with_log(p, fname))
     
 if __name__ == '__main__':
     main()
