@@ -22,7 +22,10 @@ type alias Step = { count : Int
 type alias Point = (Float, Float)
 
 type alias Model = { log : List Step,
-                     errorMsg : Maybe String } 
+                     pastLog : List Step,
+                     errorMsg : Maybe String }
+    
 type Msg = SendHttpRequest
          | DataReceived (Result Http.Error (List Step))
-         | KeyPressed
+         | RevKeyPressed
+         | IterKeyPressed

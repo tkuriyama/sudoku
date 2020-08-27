@@ -130,7 +130,8 @@ showStat myX myY { count, action, transform, score, stack } =
                  (4, "Action", showAction action),
                  (5, "Transform", showTransform transform)]
         showText (i, label, s) = text_ [ x (px (myX + 15))
-                                       , y (px (i*18))
+                                       , y (px (i*20))
+                                       , strokeWidth (px 12)
                                        , class ["infoText"]] 
                                       [ text <| label ++ ": " ++ s]
     in List.map showText stats
@@ -154,9 +155,6 @@ render myX myY m =
     case m.errorMsg of
         Nothing ->  renderLog myX myY m.log
         (Just e) -> renderError e 
-
--- JSON
-
   
 -- Main IVUS
 
@@ -174,13 +172,14 @@ initModel = { log = [{ count = 0
                      , stack = 1
                      , score = 9*9*9
                      , board = testB}]
+            , pastLog = []
             , errorMsg = Nothing }
     
 init : () -> (Model, Cmd Msg)
 init _ = (initModel, getModel)
 
 view : Model -> Html Msg
-view m = svg [ viewBox 0 0 700 700 ] (render 500 500 m) 
+view m = svg [ viewBox 0 0 900 900 ] (render 650 650 m) 
 
 url : String
 url = "http://localhost:3000/model"
@@ -193,16 +192,27 @@ getModel =
         }
 
 iterModel : Model -> Model
-iterModel { log } = case log of
-                        [] -> { log = [], errorMsg = Just "Empty log!" }
-                        (s::[]) -> { log = [s], errorMsg = Nothing }
-                        (x::y::ys) -> { log = (y::ys), errorMsg = Nothing }
+iterModel { log, pastLog } =
+    case log of
+        [] -> { log = [], pastLog = [], errorMsg = Just "Empty log!" }
+        (s::[]) -> { log = [s], pastLog = pastLog, errorMsg = Nothing }
+        (x::y::ys) -> { log = (y::ys), pastLog = (x::pastLog), errorMsg = Nothing }
+
+revModel : Model -> Model
+revModel { log, pastLog } =
+    case pastLog of
+        [] -> { log = log, pastLog = [], errorMsg = Nothing }
+        (s::[]) -> { log = (s::log), pastLog = [], errorMsg = Nothing }
+        (x::xs) -> { log = (x::log), pastLog = xs, errorMsg = Nothing }
                               
+
+                            
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SendHttpRequest -> ( model, getModel )
-        KeyPressed -> ( iterModel model, Cmd.none ) 
+        IterKeyPressed -> ( iterModel model, Cmd.none )
+        RevKeyPressed -> ( revModel model, Cmd.none ) 
         DataReceived (Ok log) ->
             ( { model | log = log }, Cmd.none )
         DataReceived (Err httpError) ->
@@ -225,9 +235,19 @@ buildErrorMessage httpError =
         Http.BadBody message ->
             message
 
+keyDecoder : Decode.Decoder Msg
+keyDecoder =
+    Decode.map toKey (Decode.field "key" Decode.string)
+
+toKey : String -> Msg
+toKey keyValue =
+    case keyValue of
+        "p" -> RevKeyPressed
+        _ -> IterKeyPressed
+                
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    onKeyPress (Decode.succeed KeyPressed)
+    onKeyPress keyDecoder
            
 main = element 
     { init = init
