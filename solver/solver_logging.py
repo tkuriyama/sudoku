@@ -191,7 +191,7 @@ def solve(board, log=[]):
         board = boards.pop()    
         for t, f in (('Rows', rows), ('Cols', cols), ('Boxes', boxs)):
             board = prune(f(board))
-            log, step = add_log(log, step, 'Prune', t, len(boards), board) 
+            log, step = add_log(log, step, 'Prune', t, len(boards), f(board))
             board = f(fill(board))
             log, step = add_log(log, step, 'Fill', t, len(boards), board)    
             
