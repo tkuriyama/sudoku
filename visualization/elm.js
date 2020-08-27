@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.cO.a8 === region.da.a8)
+	if (region.cK.a8 === region.c7.a8)
 	{
-		return 'on line ' + region.cO.a8;
+		return 'on line ' + region.cK.a8;
 	}
-	return 'on lines ' + region.cO.a8 + ' through ' + region.da.a8;
+	return 'on lines ' + region.cK.a8 + ' through ' + region.c7.a8;
 }
 
 
@@ -2704,9 +2704,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		aj: func(record.aj),
-		cP: record.cP,
-		cy: record.cy
+		ai: func(record.ai),
+		cL: record.cL,
+		cw: record.cw
 	}
 });
 
@@ -2974,11 +2974,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.aj;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.cP;
+		var message = !tag ? value : tag < 3 ? value.a : value.ai;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.cL;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.cy) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.cw) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3968,7 +3968,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 		impl.fm,
 		impl.fb,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.cG && impl.cG(sendToApp)
+			var divertHrefToApp = impl.cD && impl.cD(sendToApp)
 			var view = impl.fo;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -4043,7 +4043,7 @@ function _Browser_application(impl)
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		cG: function(sendToApp)
+		cD: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.dN === next.dN
-							&& curr.dj === next.dj
-							&& curr.dJ.a === next.dJ.a
+							&& curr.dK === next.dK
+							&& curr.dg === next.dg
+							&& curr.dG.a === next.dG.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		dX: _Browser_getScene(),
+		dU: _Browser_getScene(),
 		d9: {
 			ed: _Browser_window.pageXOffset,
 			ef: _Browser_window.pageYOffset,
 			ec: _Browser_doc.documentElement.clientWidth,
-			di: _Browser_doc.documentElement.clientHeight
+			df: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4248,7 +4248,7 @@ function _Browser_getScene()
 	var elem = _Browser_doc.documentElement;
 	return {
 		ec: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		di: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		df: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			dX: {
+			dU: {
 				ec: node.scrollWidth,
-				di: node.scrollHeight
+				df: node.scrollHeight
 			},
 			d9: {
 				ed: node.scrollLeft,
 				ef: node.scrollTop,
 				ec: node.clientWidth,
-				di: node.clientHeight
+				df: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			dX: _Browser_getScene(),
+			dU: _Browser_getScene(),
 			d9: {
 				ed: x,
 				ef: y,
 				ec: _Browser_doc.documentElement.clientWidth,
-				di: _Browser_doc.documentElement.clientHeight
+				df: _Browser_doc.documentElement.clientHeight
 			},
 			ex: {
 				ed: x + rect.left,
 				ef: y + rect.top,
 				ec: rect.width,
-				di: rect.height
+				df: rect.height
 			}
 		};
 	});
@@ -4372,7 +4372,7 @@ var _Http_toTask = F3(function(router, toTask, request)
 		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
 		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
 		xhr.addEventListener('load', function() { done(_Http_toResponse(request.eA.b, xhr)); });
-		$elm$core$Maybe$isJust(request.d5) && _Http_track(router, xhr, request.d5.a);
+		$elm$core$Maybe$isJust(request.d4) && _Http_track(router, xhr, request.d4.a);
 
 		try {
 			xhr.open(request.eO, request.fn, true);
@@ -4394,7 +4394,7 @@ var _Http_toTask = F3(function(router, toTask, request)
 
 function _Http_configureRequest(xhr, request)
 {
-	for (var headers = request.dh; headers.b; headers = headers.b) // WHILE_CONS
+	for (var headers = request.de; headers.b; headers = headers.b) // WHILE_CONS
 	{
 		xhr.setRequestHeader(headers.a.a, headers.a.b);
 	}
@@ -4424,7 +4424,7 @@ function _Http_toMetadata(xhr)
 		fn: xhr.responseURL,
 		e8: xhr.status,
 		e9: xhr.statusText,
-		dh: _Http_parseHeaders(xhr.getAllResponseHeaders())
+		de: _Http_parseHeaders(xhr.getAllResponseHeaders())
 	};
 }
 
@@ -4520,14 +4520,14 @@ function _Http_track(router, xhr, tracker)
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Sending({
 			e6: event.loaded,
-			d_: event.total
+			dY: event.total
 		}))));
 	});
 	xhr.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Receiving({
 			e$: event.loaded,
-			d_: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
+			dY: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
 		}))));
 	});
 }var $elm$core$Basics$EQ = 1;
@@ -5034,7 +5034,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {dg: fragment, dj: host, dH: path, dJ: port_, dN: protocol, dO: query};
+		return {dd: fragment, dg: host, dE: path, dG: port_, dK: protocol, dL: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5313,7 +5313,7 @@ var $elm$core$Task$perform = F2(
 			A2($elm$core$Task$map, toMessage, task));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$DataReceived = function (a) {
+var $author$project$Sudoku$DataReceived = function (a) {
 	return {$: 1, a: a};
 };
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
@@ -5936,7 +5936,7 @@ var $elm$http$Http$Request = function (a) {
 };
 var $elm$http$Http$State = F2(
 	function (reqs, subs) {
-		return {dQ: reqs, d2: subs};
+		return {dN: reqs, d1: subs};
 	});
 var $elm$http$Http$init = $elm$core$Task$succeed(
 	A2($elm$http$Http$State, $elm$core$Dict$empty, _List_Nil));
@@ -5980,7 +5980,7 @@ var $elm$http$Http$updateReqs = F3(
 					return A2(
 						$elm$core$Task$andThen,
 						function (pid) {
-							var _v4 = req.d5;
+							var _v4 = req.d4;
 							if (_v4.$ === 1) {
 								return A3($elm$http$Http$updateReqs, router, otherCmds, reqs);
 							} else {
@@ -6010,7 +6010,7 @@ var $elm$http$Http$onEffects = F4(
 				return $elm$core$Task$succeed(
 					A2($elm$http$Http$State, reqs, subs));
 			},
-			A3($elm$http$Http$updateReqs, router, cmds, state.dQ));
+			A3($elm$http$Http$updateReqs, router, cmds, state.dN));
 	});
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
@@ -6053,7 +6053,7 @@ var $elm$http$Http$onSelfMsg = F3(
 				A2(
 					$elm$core$List$filterMap,
 					A3($elm$http$Http$maybeSend, router, tracker, progress),
-					state.d2)));
+					state.d1)));
 	});
 var $elm$http$Http$Cancel = function (a) {
 	return {$: 0, a: a};
@@ -6070,10 +6070,10 @@ var $elm$http$Http$cmdMap = F2(
 					ei: r.ei,
 					el: r.el,
 					eA: A2(_Http_mapExpect, func, r.eA),
-					dh: r.dh,
+					de: r.de,
 					eO: r.eO,
 					fe: r.fe,
-					d5: r.d5,
+					d4: r.d4,
 					fn: r.fn
 				});
 		}
@@ -6097,26 +6097,26 @@ var $elm$http$Http$subscription = _Platform_leaf('Http');
 var $elm$http$Http$request = function (r) {
 	return $elm$http$Http$command(
 		$elm$http$Http$Request(
-			{ei: false, el: r.el, eA: r.eA, dh: r.dh, eO: r.eO, fe: r.fe, d5: r.d5, fn: r.fn}));
+			{ei: false, el: r.el, eA: r.eA, de: r.de, eO: r.eO, fe: r.fe, d4: r.d4, fn: r.fn}));
 };
 var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
-		{el: $elm$http$Http$emptyBody, eA: r.eA, dh: _List_Nil, eO: 'GET', fe: $elm$core$Maybe$Nothing, d5: $elm$core$Maybe$Nothing, fn: r.fn});
+		{el: $elm$http$Http$emptyBody, eA: r.eA, de: _List_Nil, eO: 'GET', fe: $elm$core$Maybe$Nothing, d4: $elm$core$Maybe$Nothing, fn: r.fn});
 };
 var $elm$json$Json$Decode$list = _Json_decodeList;
-var $author$project$Main$Step = F6(
+var $author$project$Sudoku$Step = F6(
 	function (count, action, transform, stack, score, board) {
-		return {bn: action, bO: board, bR: count, cD: score, cN: stack, cT: transform};
+		return {bH: action, cZ: board, c2: count, dV: score, d$: stack, d6: transform};
 	});
-var $author$project$Main$Extend = 2;
-var $author$project$Main$Fill = 1;
-var $author$project$Main$Invalid = 4;
-var $author$project$Main$None = 3;
-var $author$project$Main$Prune = 0;
+var $author$project$Sudoku$Extend = 2;
+var $author$project$Sudoku$Fill = 1;
+var $author$project$Sudoku$Invalid = 4;
+var $author$project$Sudoku$None = 3;
+var $author$project$Sudoku$Prune = 0;
 var $elm$json$Json$Decode$andThen = _Json_andThen;
 var $elm$json$Json$Decode$fail = _Json_fail;
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Main$actionDecoder = A2(
+var $author$project$Parser$actionDecoder = A2(
 	$elm$json$Json$Decode$andThen,
 	function (s) {
 		switch (s) {
@@ -6136,7 +6136,7 @@ var $author$project$Main$actionDecoder = A2(
 	},
 	$elm$json$Json$Decode$string);
 var $elm$json$Json$Decode$index = _Json_decodeIndex;
-var $author$project$Main$arrayAsTuple3 = F3(
+var $author$project$Parser$arrayAsTuple3 = F3(
 	function (a, b, c) {
 		return A2(
 			$elm$json$Json$Decode$andThen,
@@ -6157,18 +6157,18 @@ var $author$project$Main$arrayAsTuple3 = F3(
 			A2($elm$json$Json$Decode$index, 1, a));
 	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $author$project$Main$boardDecoder = $elm$json$Json$Decode$list(
+var $author$project$Parser$boardDecoder = $elm$json$Json$Decode$list(
 	A3(
-		$author$project$Main$arrayAsTuple3,
+		$author$project$Parser$arrayAsTuple3,
 		$elm$json$Json$Decode$int,
 		$elm$json$Json$Decode$int,
 		$elm$json$Json$Decode$list($elm$json$Json$Decode$int)));
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$map6 = _Json_map6;
-var $author$project$Main$Boxes = 2;
-var $author$project$Main$Cols = 1;
-var $author$project$Main$Rows = 0;
-var $author$project$Main$transformDecoder = A2(
+var $author$project$Sudoku$Boxes = 2;
+var $author$project$Sudoku$Cols = 1;
+var $author$project$Sudoku$Rows = 0;
+var $author$project$Parser$transformDecoder = A2(
 	$elm$json$Json$Decode$andThen,
 	function (s) {
 		switch (s) {
@@ -6183,20 +6183,20 @@ var $author$project$Main$transformDecoder = A2(
 		}
 	},
 	$elm$json$Json$Decode$string);
-var $author$project$Main$stepDecoder = A7(
+var $author$project$Parser$stepDecoder = A7(
 	$elm$json$Json$Decode$map6,
-	$author$project$Main$Step,
+	$author$project$Sudoku$Step,
 	A2($elm$json$Json$Decode$field, 'count', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'action', $author$project$Main$actionDecoder),
-	A2($elm$json$Json$Decode$field, 'transform', $author$project$Main$transformDecoder),
+	A2($elm$json$Json$Decode$field, 'action', $author$project$Parser$actionDecoder),
+	A2($elm$json$Json$Decode$field, 'transform', $author$project$Parser$transformDecoder),
 	A2($elm$json$Json$Decode$field, 'stack', $elm$json$Json$Decode$int),
 	A2($elm$json$Json$Decode$field, 'score', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'board', $author$project$Main$boardDecoder));
-var $author$project$Main$logDecoder = $elm$json$Json$Decode$list($author$project$Main$stepDecoder);
+	A2($elm$json$Json$Decode$field, 'board', $author$project$Parser$boardDecoder));
+var $author$project$Parser$logDecoder = $elm$json$Json$Decode$list($author$project$Parser$stepDecoder);
 var $author$project$Main$url = 'http://localhost:3000/model';
 var $author$project$Main$getModel = $elm$http$Http$get(
 	{
-		eA: A2($elm$http$Http$expectJson, $author$project$Main$DataReceived, $author$project$Main$logDecoder),
+		eA: A2($elm$http$Http$expectJson, $author$project$Sudoku$DataReceived, $author$project$Parser$logDecoder),
 		fn: $author$project$Main$url
 	});
 var $elm$core$List$append = F2(
@@ -6267,16 +6267,16 @@ var $author$project$Main$testB = function () {
 		vals);
 }();
 var $author$project$Main$initModel = {
-	av: $elm$core$Maybe$Nothing,
-	ai: _List_fromArray(
+	aG: $elm$core$Maybe$Nothing,
+	av: _List_fromArray(
 		[
-			{bn: 3, bO: $author$project$Main$testB, bR: 0, cD: (9 * 9) * 9, cN: 1, cT: 0}
+			{bH: 3, cZ: $author$project$Main$testB, c2: 0, dV: (9 * 9) * 9, d$: 1, d6: 0}
 		])
 };
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2($author$project$Main$initModel, $author$project$Main$getModel);
 };
-var $author$project$Main$KeyPressed = {$: 2};
+var $author$project$Sudoku$KeyPressed = {$: 2};
 var $elm$browser$Browser$Events$Document = 0;
 var $elm$browser$Browser$Events$MySub = F3(
 	function (a, b, c) {
@@ -6284,7 +6284,7 @@ var $elm$browser$Browser$Events$MySub = F3(
 	});
 var $elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {dI: pids, d2: subs};
+		return {dF: pids, d1: subs};
 	});
 var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
 	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
@@ -6404,7 +6404,7 @@ var $elm$core$Dict$merge = F6(
 	});
 var $elm$browser$Browser$Events$Event = F2(
 	function (key, event) {
-		return {dc: event, ds: key};
+		return {c9: event, dp: key};
 	});
 var $elm$browser$Browser$Events$spawn = F3(
 	function (router, key, _v0) {
@@ -6478,7 +6478,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.dI,
+			state.dF,
 			$elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
 		var deadPids = _v0.a;
@@ -6506,8 +6506,8 @@ var $elm$browser$Browser$Events$onEffects = F3(
 	});
 var $elm$browser$Browser$Events$onSelfMsg = F3(
 	function (router, _v0, state) {
-		var key = _v0.ds;
-		var event = _v0.dc;
+		var key = _v0.dp;
+		var event = _v0.c9;
 		var toMessage = function (_v2) {
 			var subKey = _v2.a;
 			var _v3 = _v2.b;
@@ -6516,7 +6516,7 @@ var $elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _v3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
 		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.d2);
+		var messages = A2($elm$core$List$filterMap, toMessage, state.d1);
 		return A2(
 			$elm$core$Task$andThen,
 			function (_v1) {
@@ -6549,7 +6549,7 @@ var $elm$browser$Browser$Events$on = F3(
 var $elm$browser$Browser$Events$onKeyPress = A2($elm$browser$Browser$Events$on, 0, 'keypress');
 var $author$project$Main$subscriptions = function (model) {
 	return $elm$browser$Browser$Events$onKeyPress(
-		$elm$json$Json$Decode$succeed($author$project$Main$KeyPressed));
+		$elm$json$Json$Decode$succeed($author$project$Sudoku$KeyPressed));
 };
 var $author$project$Main$buildErrorMessage = function (httpError) {
 	switch (httpError.$) {
@@ -6569,18 +6569,18 @@ var $author$project$Main$buildErrorMessage = function (httpError) {
 	}
 };
 var $author$project$Main$iterModel = function (_v0) {
-	var log = _v0.ai;
+	var log = _v0.av;
 	if (!log.b) {
 		return {
-			av: $elm$core$Maybe$Just('Empty log!'),
-			ai: _List_Nil
+			aG: $elm$core$Maybe$Just('Empty log!'),
+			av: _List_Nil
 		};
 	} else {
 		if (!log.b.b) {
 			var s = log.a;
 			return {
-				av: $elm$core$Maybe$Nothing,
-				ai: _List_fromArray(
+				aG: $elm$core$Maybe$Nothing,
+				av: _List_fromArray(
 					[s])
 			};
 		} else {
@@ -6589,8 +6589,8 @@ var $author$project$Main$iterModel = function (_v0) {
 			var y = _v2.a;
 			var ys = _v2.b;
 			return {
-				av: $elm$core$Maybe$Nothing,
-				ai: A2($elm$core$List$cons, y, ys)
+				aG: $elm$core$Maybe$Nothing,
+				av: A2($elm$core$List$cons, y, ys)
 			};
 		}
 	}
@@ -6612,7 +6612,7 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{ai: log}),
+							{av: log}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					var httpError = msg.a.a;
@@ -6620,7 +6620,7 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								av: $elm$core$Maybe$Just(
+								aG: $elm$core$Maybe$Just(
 									$author$project$Main$buildErrorMessage(httpError))
 							}),
 						$elm$core$Platform$Cmd$none);
@@ -7096,11 +7096,11 @@ var $author$project$Main$showTransform = function (t) {
 };
 var $author$project$Main$showStat = F3(
 	function (myX, myY, _v0) {
-		var count = _v0.bR;
-		var action = _v0.bn;
-		var transform = _v0.cT;
-		var score = _v0.cD;
-		var stack = _v0.cN;
+		var count = _v0.c2;
+		var action = _v0.bH;
+		var transform = _v0.d6;
+		var score = _v0.dV;
+		var stack = _v0.d$;
 		var stats = _List_fromArray(
 			[
 				_Utils_Tuple3(
@@ -7152,7 +7152,7 @@ var $author$project$Main$renderLog = F3(
 		if (l.b) {
 			var s = l.a;
 			return _Utils_ap(
-				A4($author$project$Main$showBoard, myX, myY, s.bn, s.bO),
+				A4($author$project$Main$showBoard, myX, myY, s.bH, s.cZ),
 				A3($author$project$Main$showStat, myX, myY, s));
 		} else {
 			return A4($author$project$Main$showBoard, myX, myY, 3, _List_Nil);
@@ -7160,9 +7160,9 @@ var $author$project$Main$renderLog = F3(
 	});
 var $author$project$Main$render = F3(
 	function (myX, myY, m) {
-		var _v0 = m.av;
+		var _v0 = m.aG;
 		if (_v0.$ === 1) {
-			return A3($author$project$Main$renderLog, myX, myY, m.ai);
+			return A3($author$project$Main$renderLog, myX, myY, m.av);
 		} else {
 			var e = _v0.a;
 			return $author$project$Main$renderError(e);
