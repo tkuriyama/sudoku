@@ -221,11 +221,16 @@ def solve_with_log(board, out_fname):
 
 def main():
     """Main: run solve() with some samples."""
-    easy = parse('..6...94.9.....3....4.92...6.7.1..2.5.23.64.9.3..4.7.5...68.5....5.....4.98...1..')
-    hard = parse('...16..2...2...8.5..5..36.9....5.18...........96.7....1.89..3..4.9...7...5..16...')    
+    easy = parse('..6...94.9.....3....4.92...6.7.1..2.5.23.64.9.3.' +
+                 '.4.7.5...68.5....5.....4.98...1..')
+    medium = parse('...16..2...2...8.5..5..36.9....5.18..........' +
+                   '.96.7....1.89..3..4.9...7...5..16...')    
+    hard = parse('00000001200003500000060007070000030000040080010' +
+                 '0000000000120000080000040050000600')
     nefarious = parse('000060080020000000001000000070000102500030' +
                       '000000000400004201000300700600000000050')
-    pairs = ((easy, 'easy.json'), (hard, 'hard.json'), (nefarious, 'nefarious.json'))
+    pairs = ((easy, 'easy.json'), (medium, 'medium.json'),
+             (hard, 'hard.json'), (nefarious, 'nefarious.json'))
     for p, fname in pairs:
         print(show(p))
         print(solve_with_log(p, fname))
