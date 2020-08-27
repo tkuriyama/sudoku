@@ -152,3 +152,28 @@ showInfo myX myY =
                                   , class ["infoText"]] 
                                  [ text txt]
     in List.map showText info
+
+renderLog : Float -> Float -> List Step -> List (Int, Int) -> List (Svg msg)
+renderLog myX myY l diffs =
+    case l of
+        (s::_) -> (showBoard myX myY s.action s.board) ++
+                  (showDiff myX myY diffs) ++ 
+                  (showStat myX myY s) ++
+                  (showInfo myX myY)
+        [] -> showBoard myX myY None []  
+
+renderError : String -> List (Svg msg)
+renderError s = [text_ [ x (px 10)
+                       , y (px 10)
+                       , class ["errorText"]
+                       ]
+                       [text s ]
+                ]
+                    
+render : Float -> Float -> Model -> List (Svg msg)
+render myX myY m =
+    case m.errorMsg of
+        Nothing ->  renderLog myX myY m.log m.logDiff
+        (Just e) -> renderError e 
+  
+        

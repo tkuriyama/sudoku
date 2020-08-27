@@ -4,44 +4,17 @@ import Sudoku exposing (..)
 import Parser exposing (..)
 import Show exposing (..)
 
+import Http
+import Browser exposing (element)
+import Browser.Events exposing (onKeyPress)
+import Json.Decode as Decode exposing (Decoder, Error(..))
 import String exposing (fromInt)
 
-import Color
-import Browser exposing (element)
-import Http
-import Html exposing (Html, h2, h3, div)
+import Html exposing (Html, div)
 import Html.Events exposing (onClick)
-import TypedSvg.Core exposing (Svg, text)
-
-import Json.Decode as Decode exposing (Decoder, Error(..))
-import Browser.Events exposing (onKeyPress)
-
-    
-
-renderLog : Float -> Float -> List Step -> List (Int, Int) -> List (Svg msg)
-renderLog myX myY l diffs =
-    case l of
-        (s::_) -> (showBoard myX myY s.action s.board) ++
-                  (showDiff myX myY diffs) ++ 
-                  (showStat myX myY s) ++
-                  (showInfo myX myY)
-        [] -> showBoard myX myY None []  
-
-renderError : String -> List (Svg msg)
-renderError s = [text_ [ x (px 10)
-                       , y (px 10)
-                       , class ["errorText"]
-                       ]
-                       [text s ]
-                ]
-                    
-render : Float -> Float -> Model -> List (Svg msg)
-render myX myY m =
-    case m.errorMsg of
-        Nothing ->  renderLog myX myY m.log m.logDiff
-        (Just e) -> renderError e 
-  
--- Main IVUS
+import TypedSvg exposing (svg)
+import TypedSvg.Core exposing (Svg)
+import TypedSvg.Attributes exposing (viewBox)
 
 testB : Board
 testB = let empty = List.range 0 9 
