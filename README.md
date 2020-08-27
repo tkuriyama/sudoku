@@ -31,6 +31,10 @@ As an example, `easy.json` logs the iterations of the easy puzzle defined in `so
           0,
 ```
 
+This nefarious puzzle takes the solver 7630 steps to solve (vs 28 steps for the easy puzzle). The log format is not optimized for conciseness (e.g. by logging deltas instead of whole boards), so the `nefarious.json` file size exceeds 100MB and is omitted from the repo. 
+
+`000060080020000000001000000070000102500030000000000400004201000300700600000000050`
+
 ## Visualization
 
 The Elm code compiles an SVG visualization of the solver's iterations. 
