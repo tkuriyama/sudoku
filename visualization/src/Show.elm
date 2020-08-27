@@ -102,13 +102,15 @@ showDiff : Float -> Float -> List (Int, Int) -> List (Svg msg)
 showDiff myX myY ps =
     let fx n = (toFloat n) * (myX / 9)
         fy n = (toFloat n) * (myY / 9)
+        border = 5
+        offset = 3
         showEffect (myCXInt, myCYInt) =
-            rect [ x (px (fx myCXInt))
-                 , y (px (fy myCYInt))
-                 , width (px (myX / 9))
-                 , height (px (myY / 9))
+            rect [ x (px <| fx myCXInt + offset)
+                 , y (px <| fy myCYInt + offset)
+                 , width (px (myX/9 - offset*2))
+                 , height (px (myY/9 - offset*2))
                  , stroke <| Paint Color.darkGreen
-                 , strokeWidth (px 5)
+                 , strokeWidth (px border)
                  , opacity <| Opacity 1
                  , fillOpacity <| Opacity 0
                   ] []
@@ -120,7 +122,7 @@ showAction a = case a of
                    Fill -> "Fill"
                    Extend -> "Extend"
                    None -> "None"
-                   Invalid -> "Invalid Board"
+                   Invalid -> "Backtrack"
 
 showTransform : Transform -> String
 showTransform t = case t of

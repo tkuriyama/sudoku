@@ -7156,12 +7156,14 @@ var $author$project$Show$showBoard = F4(
 var $avh4$elm_color$Color$darkGreen = A4($avh4$elm_color$Color$RgbaSpace, 78 / 255, 154 / 255, 6 / 255, 1.0);
 var $author$project$Show$showDiff = F3(
 	function (myX, myY, ps) {
+		var offset = 3;
 		var fy = function (n) {
 			return n * (myY / 9);
 		};
 		var fx = function (n) {
 			return n * (myX / 9);
 		};
+		var border = 5;
 		var showEffect = function (_v0) {
 			var myCXInt = _v0.a;
 			var myCYInt = _v0.b;
@@ -7171,18 +7173,18 @@ var $author$project$Show$showDiff = F3(
 					[
 						$elm_community$typed_svg$TypedSvg$Attributes$x(
 						$elm_community$typed_svg$TypedSvg$Types$px(
-							fx(myCXInt))),
+							fx(myCXInt) + offset)),
 						$elm_community$typed_svg$TypedSvg$Attributes$y(
 						$elm_community$typed_svg$TypedSvg$Types$px(
-							fy(myCYInt))),
+							fy(myCYInt) + offset)),
 						$elm_community$typed_svg$TypedSvg$Attributes$width(
-						$elm_community$typed_svg$TypedSvg$Types$px(myX / 9)),
+						$elm_community$typed_svg$TypedSvg$Types$px((myX / 9) - (offset * 2))),
 						$elm_community$typed_svg$TypedSvg$Attributes$height(
-						$elm_community$typed_svg$TypedSvg$Types$px(myY / 9)),
+						$elm_community$typed_svg$TypedSvg$Types$px((myY / 9) - (offset * 2))),
 						$elm_community$typed_svg$TypedSvg$Attributes$stroke(
 						$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$darkGreen)),
 						$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
-						$elm_community$typed_svg$TypedSvg$Types$px(5)),
+						$elm_community$typed_svg$TypedSvg$Types$px(border)),
 						$elm_community$typed_svg$TypedSvg$Attributes$opacity(
 						$elm_community$typed_svg$TypedSvg$Types$Opacity(1)),
 						$elm_community$typed_svg$TypedSvg$Attributes$fillOpacity(
