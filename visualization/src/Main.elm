@@ -93,14 +93,13 @@ genCell myX myY (myCXInt, myCYInt, ns) =
     in text_ [ x (px <| myCX * myX / 9 + offset - 5)
              , y (px <| myCY * myY / 9 + offset + 5)
              , class ["boardNum"]
-             , strokeWidth (px 12)
              ] [text disp] 
     
 populate : Float -> Float -> Action -> Board -> List (Svg msg)
 populate myX myY a cs =
          List.map (genCellBG myX myY a) cs ++
          List.map (genCell myX myY) cs         
-    
+             
 showBoard : Float -> Float -> Action -> Board -> List (Svg msg)
 showBoard myX myY a b =
     (minorLines myX myY 0.5) ++
@@ -108,6 +107,22 @@ showBoard myX myY a b =
     (populate myX myY a b) ++
     [box myX myY]
 
+showDiff : Float -> Float -> List (Int, Int) -> List (Svg msg)
+showDiff myX myY ps =
+    let fx n = (toFloat n) * (myX / 9)
+        fy n = (toFloat n) * (myY / 9)
+        showEffect (myCXInt, myCYInt) =
+            rect [ x (px (fx myCXInt))
+                 , y (px (fy myCYInt))
+                 , width (px (myX / 9))
+                 , height (px (myY / 9))
+                 , stroke <| Paint Color.darkGreen
+                 , strokeWidth (px 5)
+                 , opacity <| Opacity 1
+                 , fillOpacity <| Opacity 0
+                  ] []
+    in List.map showEffect ps
+        
 showAction : Action -> String
 showAction a = case a of
                    Prune -> "Prune"
@@ -131,7 +146,6 @@ showStat myX myY { count, action, transform, score, stack } =
                  (5, "Transform", showTransform transform)]
         showText (i, label, s) = text_ [ x (px (myX + 15))
                                        , y (px (i*24))
-                                       , strokeWidth (px 12)
                                        , class ["statText"]] 
                                       [ text <| label ++ ": " ++ s]
     in List.map showText stats
@@ -148,10 +162,11 @@ showInfo myX myY =
                                  [ text txt]
     in List.map showText info
 
-renderLog : Float -> Float -> List Step -> List (Svg msg)
-renderLog myX myY l =
+renderLog : Float -> Float -> List Step -> List (Int, Int) -> List (Svg msg)
+renderLog myX myY l diffs =
     case l of
         (s::_) -> (showBoard myX myY s.action s.board) ++
+                  (showDiff myX myY diffs) ++ 
                   (showStat myX myY s) ++
                   (showInfo myX myY)
         [] -> showBoard myX myY None []  
@@ -167,7 +182,7 @@ renderError s = [text_ [ x (px 10)
 render : Float -> Float -> Model -> List (Svg msg)
 render myX myY m =
     case m.errorMsg of
-        Nothing ->  renderLog myX myY m.log
+        Nothing ->  renderLog myX myY m.log m.logDiff
         (Just e) -> renderError e 
   
 -- Main IVUS
@@ -207,8 +222,11 @@ getModel =
         }
 
 getDiff : Board -> Board -> List (Int, Int)
-getDiff b1 b2 = []
-        
+getDiff b1 b2 =
+    let f (x1, y1, c1) (x2, y2, c2) = if c1 == c2 then (-1, -1) else (x2, y2)
+    in List.map2 f b1 b2 |> List.filter ((/=) (-1, -1))
+
+    
 iterModel : Model -> Model
 iterModel { log, pastLog } =
     case log of

@@ -2704,7 +2704,7 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		al: func(record.al),
+		am: func(record.am),
 		cO: record.cO,
 		cz: record.cz
 	}
@@ -2974,7 +2974,7 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.al;
+		var message = !tag ? value : tag < 3 ? value.a : value.am;
 		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.cO;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
@@ -6272,7 +6272,7 @@ var $author$project$Main$initModel = {
 		[
 			{bK: 3, aH: $author$project$Main$testB, c4: 0, dX: (9 * 9) * 9, d1: 1, d8: 0}
 		]),
-	ay: _List_Nil,
+	al: _List_Nil,
 	aa: _List_Nil
 };
 var $author$project$Main$init = function (_v0) {
@@ -6581,9 +6581,38 @@ var $author$project$Main$buildErrorMessage = function (httpError) {
 			return message;
 	}
 };
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$getDiff = F2(
 	function (b1, b2) {
-		return _List_Nil;
+		var f = F2(
+			function (_v0, _v1) {
+				var x1 = _v0.a;
+				var y1 = _v0.b;
+				var c1 = _v0.c;
+				var x2 = _v1.a;
+				var y2 = _v1.b;
+				var c2 = _v1.c;
+				return _Utils_eq(c1, c2) ? _Utils_Tuple2(-1, -1) : _Utils_Tuple2(x2, y2);
+			});
+		return A2(
+			$elm$core$List$filter,
+			$elm$core$Basics$neq(
+				_Utils_Tuple2(-1, -1)),
+			A3($elm$core$List$map2, f, b1, b2));
 	});
 var $author$project$Main$iterModel = function (_v0) {
 	var log = _v0.N;
@@ -6592,7 +6621,7 @@ var $author$project$Main$iterModel = function (_v0) {
 		return {
 			X: $elm$core$Maybe$Just('Empty log!'),
 			N: _List_Nil,
-			ay: _List_Nil,
+			al: _List_Nil,
 			aa: _List_Nil
 		};
 	} else {
@@ -6602,7 +6631,7 @@ var $author$project$Main$iterModel = function (_v0) {
 				X: $elm$core$Maybe$Nothing,
 				N: _List_fromArray(
 					[x]),
-				ay: _List_Nil,
+				al: _List_Nil,
 				aa: pastLog
 			};
 		} else {
@@ -6613,7 +6642,7 @@ var $author$project$Main$iterModel = function (_v0) {
 			return {
 				X: $elm$core$Maybe$Nothing,
 				N: A2($elm$core$List$cons, y, ys),
-				ay: A2($author$project$Main$getDiff, x.aH, y.aH),
+				al: A2($author$project$Main$getDiff, x.aH, y.aH),
 				aa: A2($elm$core$List$cons, x, pastLog)
 			};
 		}
@@ -6625,14 +6654,14 @@ var $author$project$Main$revModel = function (_v0) {
 	var log = _v0.N;
 	var pastLog = _v0.aa;
 	if (!pastLog.b) {
-		return {X: $elm$core$Maybe$Nothing, N: log, ay: _List_Nil, aa: _List_Nil};
+		return {X: $elm$core$Maybe$Nothing, N: log, al: _List_Nil, aa: _List_Nil};
 	} else {
 		if (!pastLog.b.b) {
 			var x = pastLog.a;
 			return {
 				X: $elm$core$Maybe$Nothing,
 				N: A2($elm$core$List$cons, x, log),
-				ay: _List_Nil,
+				al: _List_Nil,
 				aa: _List_Nil
 			};
 		} else {
@@ -6643,7 +6672,7 @@ var $author$project$Main$revModel = function (_v0) {
 			return {
 				X: $elm$core$Maybe$Nothing,
 				N: A2($elm$core$List$cons, x, log),
-				ay: A2($author$project$Main$getDiff, y.aH, x.aH),
+				al: A2($author$project$Main$getDiff, y.aH, x.aH),
 				aa: A2($elm$core$List$cons, y, ys)
 			};
 		}
@@ -7035,9 +7064,7 @@ var $author$project$Main$genCell = F3(
 					$elm_community$typed_svg$TypedSvg$Types$px((((myCY * myY) / 9) + offset) + 5)),
 					$elm_community$typed_svg$TypedSvg$Attributes$class(
 					_List_fromArray(
-						['boardNum'])),
-					$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
-					$elm_community$typed_svg$TypedSvg$Types$px(12))
+						['boardNum']))
 				]),
 			_List_fromArray(
 				[
@@ -7125,6 +7152,45 @@ var $author$project$Main$showBoard = F4(
 						[
 							A2($author$project$Main$box, myX, myY)
 						]))));
+	});
+var $avh4$elm_color$Color$darkGreen = A4($avh4$elm_color$Color$RgbaSpace, 78 / 255, 154 / 255, 6 / 255, 1.0);
+var $author$project$Main$showDiff = F3(
+	function (myX, myY, ps) {
+		var fy = function (n) {
+			return n * (myY / 9);
+		};
+		var fx = function (n) {
+			return n * (myX / 9);
+		};
+		var showEffect = function (_v0) {
+			var myCXInt = _v0.a;
+			var myCYInt = _v0.b;
+			return A2(
+				$elm_community$typed_svg$TypedSvg$rect,
+				_List_fromArray(
+					[
+						$elm_community$typed_svg$TypedSvg$Attributes$x(
+						$elm_community$typed_svg$TypedSvg$Types$px(
+							fx(myCXInt))),
+						$elm_community$typed_svg$TypedSvg$Attributes$y(
+						$elm_community$typed_svg$TypedSvg$Types$px(
+							fy(myCYInt))),
+						$elm_community$typed_svg$TypedSvg$Attributes$width(
+						$elm_community$typed_svg$TypedSvg$Types$px(myX / 9)),
+						$elm_community$typed_svg$TypedSvg$Attributes$height(
+						$elm_community$typed_svg$TypedSvg$Types$px(myY / 9)),
+						$elm_community$typed_svg$TypedSvg$Attributes$stroke(
+						$elm_community$typed_svg$TypedSvg$Types$Paint($avh4$elm_color$Color$darkGreen)),
+						$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
+						$elm_community$typed_svg$TypedSvg$Types$px(5)),
+						$elm_community$typed_svg$TypedSvg$Attributes$opacity(
+						$elm_community$typed_svg$TypedSvg$Types$Opacity(1)),
+						$elm_community$typed_svg$TypedSvg$Attributes$fillOpacity(
+						$elm_community$typed_svg$TypedSvg$Types$Opacity(0))
+					]),
+				_List_Nil);
+		};
+		return A2($elm$core$List$map, showEffect, ps);
 	});
 var $author$project$Main$showInfo = F2(
 	function (myX, myY) {
@@ -7223,8 +7289,6 @@ var $author$project$Main$showStat = F3(
 						$elm_community$typed_svg$TypedSvg$Types$px(myX + 15)),
 						$elm_community$typed_svg$TypedSvg$Attributes$y(
 						$elm_community$typed_svg$TypedSvg$Types$px(i * 24)),
-						$elm_community$typed_svg$TypedSvg$Attributes$strokeWidth(
-						$elm_community$typed_svg$TypedSvg$Types$px(12)),
 						$elm_community$typed_svg$TypedSvg$Attributes$class(
 						_List_fromArray(
 							['statText']))
@@ -7236,15 +7300,17 @@ var $author$project$Main$showStat = F3(
 		};
 		return A2($elm$core$List$map, showText, stats);
 	});
-var $author$project$Main$renderLog = F3(
-	function (myX, myY, l) {
+var $author$project$Main$renderLog = F4(
+	function (myX, myY, l, diffs) {
 		if (l.b) {
 			var s = l.a;
 			return _Utils_ap(
 				A4($author$project$Main$showBoard, myX, myY, s.bK, s.aH),
 				_Utils_ap(
-					A3($author$project$Main$showStat, myX, myY, s),
-					A2($author$project$Main$showInfo, myX, myY)));
+					A3($author$project$Main$showDiff, myX, myY, diffs),
+					_Utils_ap(
+						A3($author$project$Main$showStat, myX, myY, s),
+						A2($author$project$Main$showInfo, myX, myY))));
 		} else {
 			return A4($author$project$Main$showBoard, myX, myY, 3, _List_Nil);
 		}
@@ -7253,7 +7319,7 @@ var $author$project$Main$render = F3(
 	function (myX, myY, m) {
 		var _v0 = m.X;
 		if (_v0.$ === 1) {
-			return A3($author$project$Main$renderLog, myX, myY, m.N);
+			return A4($author$project$Main$renderLog, myX, myY, m.N, m.al);
 		} else {
 			var e = _v0.a;
 			return $author$project$Main$renderError(e);
