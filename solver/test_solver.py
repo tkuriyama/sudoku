@@ -1,7 +1,7 @@
 import solver
 
-with open('samples.txt', 'r') as f:
-    lines = [line.strip() for line in f.readlines()]
+with open('samples_many.txt', 'r') as f:
+    lines = [line.strip() for line in f.readlines()[:5]]
     PUZZLES = [solver.parse(p) for p in lines]
 
 class TestSolver:
