@@ -187,6 +187,7 @@ initModel = { log = [{ count = 0
                      , score = 9*9*9
                      , board = testB}]
             , pastLog = []
+            , logDiff = []
             , errorMsg = Nothing }
     
 init : () -> (Model, Cmd Msg)
@@ -205,21 +206,24 @@ getModel =
         , expect = Http.expectJson DataReceived logDecoder
         }
 
+getDiff : Board -> Board -> List (Int, Int)
+getDiff b1 b2 = []
+        
 iterModel : Model -> Model
 iterModel { log, pastLog } =
     case log of
-        [] -> { log = [], pastLog = [], errorMsg = Just "Empty log!" }
-        (s::[]) -> { log = [s], pastLog = pastLog, errorMsg = Nothing }
-        (x::y::ys) -> { log = (y::ys), pastLog = (x::pastLog), errorMsg = Nothing }
+        [] -> { log = [], pastLog = [],logDiff = [], errorMsg = Just "Empty log!" }
+        (x::[]) -> { log = [x], pastLog = pastLog, logDiff = [], errorMsg = Nothing }
+        (x::y::ys) -> { log = (y::ys), pastLog = (x::pastLog)
+                      , logDiff = getDiff x.board y.board, errorMsg = Nothing }
 
 revModel : Model -> Model
 revModel { log, pastLog } =
     case pastLog of
-        [] -> { log = log, pastLog = [], errorMsg = Nothing }
-        (s::[]) -> { log = (s::log), pastLog = [], errorMsg = Nothing }
-        (x::xs) -> { log = (x::log), pastLog = xs, errorMsg = Nothing }
-                              
-
+        [] -> { log = log, pastLog = [], logDiff = [], errorMsg = Nothing }
+        (x::[]) -> { log = (x::log), pastLog = [], logDiff = [], errorMsg = Nothing }
+        (x::y::ys) -> { log = (x::log), pastLog = (y::ys)
+                      , logDiff = getDiff y.board x.board, errorMsg = Nothing }
                             
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
