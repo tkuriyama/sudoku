@@ -7236,7 +7236,7 @@ var $author$project$Show$showAction = function (a) {
 		case 3:
 			return 'None';
 		default:
-			return 'Invalid Board';
+			return 'Backtrack';
 	}
 };
 var $author$project$Show$showTransform = function (t) {
