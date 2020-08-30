@@ -3,7 +3,7 @@
 
 ## Link
 
-
+<a href="https://tarokuriyama.com/projects/sudoku.php">See the visualization</a>.
 
 ## Solver
 
