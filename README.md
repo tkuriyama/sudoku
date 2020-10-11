@@ -1,7 +1,7 @@
 
 # Sudoku
 
-<img title="sudoku solver screenshot" height="591" width="440" src="https://tarokuriyama.com/projects/sudoku/images/screenshot.png">
+<img title="sudoku solver screenshot" width="440" height="591" src="https://tarokuriyama.com/projects/sudoku/images/screenshot.png">
 
 ## Link
 
