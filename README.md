@@ -1,6 +1,8 @@
 
 # Sudoku
 
+![Sudoku Solver Image](https://tarokuriyama.com/projects/sudoku/images/screenshot.png)
+
 ## Link
 
 <a href="https://tarokuriyama.com/projects/sudoku.php">See the visualization</a>.
