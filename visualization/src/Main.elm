@@ -41,7 +41,7 @@ view : Model -> Html Msg
 view m = svg [ viewBox 0 0 1100 800 ] (render 750 750 m) 
 
 url : String
-url = "http://localhost:3000/model"
+url = "https://tarokuriyama.com/projects/sudoku/hard.json"
     
 getModel : Cmd Msg
 getModel = 
